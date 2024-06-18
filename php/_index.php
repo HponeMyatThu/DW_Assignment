@@ -22,12 +22,20 @@ function DBConnection($parameter)
     }
 }
 
+function toaster($message, $failOrSuccess) {
+    echo "<div class='toaster' id='toaster'>";
+    echo "<div class='toaster-content'>";
+    echo "<p class='special_elite_regular $failOrSuccess'>$message</p>";
+    echo "</div>";
+    echo "</div>";
+}
+
 function adminRegister()
 {
     $connection = DBConnection("admin");
 
     if ($connection === null) {
-        echo "<p class='error'>Error: Database connection could not be established.</p>";
+        toaster("Error: Database connection could not be established", "error");
         return;
     }
 
@@ -45,20 +53,14 @@ function adminRegister()
         $query = "INSERT INTO admin (firstname, surname, email, password, pin, phone, address, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($query);
         if ($stmt === false) {
-            echo "<p class='error'>Error preparing statement: " . $connection->error . "</p>";
+            toaster("Error preparing statement: $connection->error", "error");
         } else {
             $stmt->bind_param('ssssssss', $firstname, $surname, $email, $hashedPassword, $pin, $phone, $address, $status);
             $result = $stmt->execute();
             if ($result === false) {
-                echo "<p class='error'>Error executing statement: " . $stmt->error . "</p>";
+                toaster("Error executing statement: $stmt->error ", "error");
             } else {
-                echo "<div class='modal'>";
-                echo "<div class='modal-content'>";
-                echo "<span class='close' onclick='document.getElementById(\"modal-toggle\").checked = false;'>&times;</span>";
-                echo "<p class='success'>User added successfully.</p>";
-                echo "<a href='../../views/Login.php'>Go to Login Page</a>";
-                echo "</div>";
-                echo "</div>";
+                toaster("Admin Register successfully", "success");
             }
             $stmt->close();
         }

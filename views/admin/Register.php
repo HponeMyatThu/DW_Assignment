@@ -30,7 +30,7 @@ adminRegister();
                 <div class="admin_register_sub_dev_form">
                     <div>
                         <div class="admin_register_title_main_dev">
-                            <p class="h3 special_elite_regular">Input Your Information</p>
+                            <p class="h3 special_elite_regular">Input Admin Information</p>
                             <p class="h6 special_elite_regular">We need you to help us with some basic information for your account creation. Here are our terms and conditions. Please read them carefully</p>
                         </div>
                         <div>
@@ -109,7 +109,7 @@ adminRegister();
                                 <button type="submit" class="special_elite_regular">Register</button>
                             </div>
                             <div class="admin_register_login-link">
-                                <p class="special_elite_regular">Already have an account?&nbsp;<a href="AdminLogin.php" class="special_elite_regular">Login here</a></p>
+                                <p class="special_elite_regular">Already have an account?&nbsp;<a href="Login.php" class="special_elite_regular">Login here</a></p>
                             </div>
                         </div>
                     </div>
@@ -120,9 +120,13 @@ adminRegister();
 </body>
 
 <script>
-function closeModal() {
-  document.getElementById('modal-toggle').checked = false;
-}
+    const modal = document.getElementById('toaster');
+    if (modal) {
+        modal.classList.add('show');
+        setTimeout(() => {
+            modal.classList.remove('show');
+        }, 3000);
+    }
 </script>
 
 </html>
