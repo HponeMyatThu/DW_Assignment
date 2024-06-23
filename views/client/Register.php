@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<?php
+$IndexFilePath = "../../php/_index.php";
+$HeaderFilePath = "../layout/header.php";
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Register</title>
-    <link rel="stylesheet" href="../../styles/index.css?v=<?php echo time(); ?>">
-</head>
+if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
+    include($IndexFilePath);
+    include($HeaderFilePath);
+} else {
+    echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
+    return;
+}
+clientRegister();
+?>
 
 <body class="admin_register_body">
     <div class="admin_register_container">
-        <form action="AdminRegister.php" method="post">
+        <form action="Register.php" method="post">
             <div class="admin_register_main_dev">
                 <div class="admin_register_sub_dev">
                     <img src="../../images/register_cover.png" alt="">
@@ -18,7 +22,7 @@
                 <div class="admin_register_sub_dev_form">
                     <div>
                         <div class="admin_register_title_main_dev">
-                            <p class="h3 special_elite_regular">Input Your Information</p>
+                            <p class="h3 special_elite_regular">Input User Information</p>
                             <p class="h6 special_elite_regular">We need you to help us with some basic information for your account creation. Here are our terms and conditions. Please read them carefully</p>
                         </div>
                         <div>
@@ -97,7 +101,7 @@
                                 <button type="submit" class="special_elite_regular">Register</button>
                             </div>
                             <div class="admin_register_login-link">
-                                <p class="special_elite_regular">Already have an account?&nbsp;<a href="AdminLogin.php" class="special_elite_regular">Login here</a></p>
+                                <p class="special_elite_regular">Already have an account?&nbsp;<a href="Login.php" class="special_elite_regular">Login here</a></p>
                             </div>
                         </div>
                     </div>
@@ -107,4 +111,13 @@
     </div>
 </body>
 
-</html>
+<?php
+$FooterFilePath = "../layout/footer.php";
+
+if (file_exists($FooterFilePath)) {
+    include($FooterFilePath);
+} else {
+    echo "<p class='error'>Error: Unable to include file <strong>$FooterFilePath</strong> - File does not exist.</p>";
+    return;
+}
+?>

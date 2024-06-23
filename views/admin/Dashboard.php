@@ -171,10 +171,12 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
             <div class="sidebar_sub_dev">
                 <hr>
-                <button class="profile-button">
-                    <img src="../../images/admin_pf_icon.png" alt="admin logo" class="profile_avatar">
-                    <span class="profile_name special_elite_regular">Admin Name</span>
-                </button>
+                <form method="POST">
+                    <button type="submit" name="profile-button" id="profile-button" class="<?php echo ($currentPath == 'Profile.php') ? 'active' : ''; ?> profile-button">
+                        <img src="../../images/admin_pf_icon.png" alt="admin logo" class="profile_avatar">
+                        <span class="profile_name special_elite_regular">Admin Name</span>
+                    </button>
+                </form>
             </div>
         </nav>
         <div>

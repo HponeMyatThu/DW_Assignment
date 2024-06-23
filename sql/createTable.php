@@ -17,6 +17,7 @@ if ($isEmptyFilePath) {
 $isEmpty = empty($create_pitch_type_table)
     || empty($create_admin_table)
     || empty($create_user_table)
+    || empty($create_user_table)
     || empty($create_pitch_table)
     || empty($create_review_table)
     || empty($create_booking_table);
@@ -38,6 +39,7 @@ function executeQuery($connection, $query, $tableName)
 }
 
 executeQuery($connection, $create_admin_table, "ADMIN");
+executeQuery($connection, $create_user_table, "USER");
 
 // executeQuery($connection, $create_pitch_type_table, "PITCH TYPE");
 // executeQuery($connection, $create_admin_table, "ADMIN");

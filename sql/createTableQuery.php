@@ -21,13 +21,28 @@ $create_user_table = "CREATE TABLE IF NOT EXISTS user" .
     "id int not null auto_increment" . $comma .
     "firstname varchar(50) not null" . $comma .
     "surname varchar(50) not null" . $comma .
-    "password varchar(255) not null" . $comma .
     "email varchar(100) not null unique" . $comma .
+    "password varchar(255) not null" . $comma .
+    "pin varchar(10) not null" . $comma .
     "phone varchar(30) not null unique" . $comma .
     "address varchar(255) not null" . $comma .
+    "login_on_other_device enum('true', 'false') default 'false'" . $comma .
     "status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'" . $comma .
     "primary key(id)" .
     ")";
+
+// $create_user_table = "CREATE TABLE IF NOT EXISTS user" .
+//     "(" .
+//     "id int not null auto_increment" . $comma .
+//     "firstname varchar(50) not null" . $comma .
+//     "surname varchar(50) not null" . $comma .
+//     "password varchar(255) not null" . $comma .
+//     "email varchar(100) not null unique" . $comma .
+//     "phone varchar(30) not null unique" . $comma .
+//     "address varchar(255) not null" . $comma .
+//     "status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'" . $comma .
+//     "primary key(id)" .
+//     ")";
 
 $create_pitch_type_table = "CREATE TABLE IF NOT EXISTS pitch_type" .
     "(" .

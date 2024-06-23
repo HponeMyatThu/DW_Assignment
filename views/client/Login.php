@@ -9,7 +9,7 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
-adminLogin()
+clientLogin();
 ?>
 
 <body class="admin_register_body">
@@ -22,7 +22,7 @@ adminLogin()
                 <div class="admin_login_sub_dev_form">
                     <div>
                         <div class="admin_register_title_main_dev">
-                            <p class="h3_login special_elite_regular">Admin Login Here</p>
+                            <p class="h3_login special_elite_regular">User Login Here</p>
                         </div>
                         <div>
                             <hr class="dotted_login">

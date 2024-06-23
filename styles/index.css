@@ -299,7 +299,157 @@ hr.dotted_login {
   font-weight: 700;
 }
 
-/* ------------------------------   Navbar   ------------------------------ */
+/* ------------------------------   Client-Navbar   ------------------------------ */
+header {
+  position: relative;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  background-color: #fff;
+  box-shadow: 0 0 10px #ccc;
+}
+
+header i,
+header a {
+  cursor: pointer;
+  color: #000000;
+}
+
+#search-input {
+  width: 200px;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 5px 20px;
+  display: flex;
+  margin: 0 auto;
+}
+
+#dropdown_search_modal {
+  width: 150px;
+  background-color: rgba(255, 255, 255, 0.3);
+  padding: 5px 20px;
+  display: flex;
+  margin: 0 auto;
+}
+
+.dropdown_search {
+  z-index: 100;
+  position: absolute;
+  right: 6rem;
+  top: 18px;
+  display: none;
+  transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dropdown_search.open {
+  display: block;
+}
+
+.navbar {
+  width: 100%;
+  height: 60px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 5%;
+  display: flex;
+  align-items: center;
+  border-radius: 3rem;
+  justify-content: space-between;
+  top: 0;
+}
+
+.navbar .links li,
+.navbar .links a {
+  list-style: none;
+  color: #000;
+}
+
+.navbar .links {
+  display: flex;
+  flex-direction: row;
+  gap: 4rem;
+  margin: 0 auto;
+}
+
+.navbar .logo a {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.navbar .toggle_btn {
+  color: #000;
+  font-size: 1.5rem;
+  cursor: pointer;
+  display: none;
+}
+
+.navbar .toggle_search {
+  display: none;
+  color: #000;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+.dropdown_about_menu {
+  z-index: 100;
+  display: none;
+  position: absolute;
+  right: 30rem;
+  height: 0;
+  top: 45px;
+  width: 150px;
+  background-color: rgba(225, 225, 225, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dropdown_about_menu li{
+  list-style: none !important;
+}
+
+.dropdown_about_menu li a{
+  color: #000;
+}
+
+.dropdown_menu {
+  z-index: 100;
+  display: none;
+  position: absolute;
+  right: 1rem;
+  height: 0;
+  top: 65px;
+  width: 150px;
+  background-color: rgba(225, 225, 225, 0.3);
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.dropdown_menu.open {
+  height: 360px;
+}
+
+.dropdown_about_menu.open {
+  display: block !important;
+  height: 130px;
+}
+
+.dropdown_menu li {
+  padding: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+}
+
+.dropdown_menu a {
+  text-decoration: none;
+  color: #000;
+}
+
+/* ------------------------------   Admin-Navbar   ------------------------------ */
 .admin_container_with_navbar {
   display: flex;
   background-color: #f0f0f0;
@@ -374,7 +524,7 @@ hr.dotted_login {
   height: 80px;
 }
 
-.sidebar_sub_dev ul li .nav_icons{
+.sidebar_sub_dev ul li .nav_icons {
   display: flex;
   gap: 10px;
   align-items: center;
@@ -394,12 +544,57 @@ hr.dotted_login {
   background-color: #ccc;
 }
 
+/* ------------------------------   Media_Type   ------------------------------ */
+h2 {
+  font-size: 26px;
+  margin: 20px 0;
+  text-align: center;
+  small {
+    font-size: 0.5em;
+  }
+}
+
+.media_type_table {
+  width: 100%;
+  margin: 0 20px;
+}
+
+.responsive-table {
+  li {
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  .table-header {
+    background-color: #95a5a6;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  .table-row {
+    background-color: #ffffff;
+    box-shadow: 0px 0px 9px 0px rgba(0, 0, 0, 0.1);
+  }
+  .col-1 {
+    flex-basis: 10%;
+  }
+  .col-2 {
+    flex-basis: 40%;
+  }
+  .col-3 {
+    flex-basis: 25%;
+  }
+  .col-4 {
+    flex-basis: 25%;
+  }
+}
 /* ------------------------------   Admin-Login   ------------------------------ */
 .admin_login_container {
   background-color: #fff;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 55%;
+  width: 50%;
 }
 
 .admin_login_main_dev {
@@ -493,25 +688,45 @@ hr.dotted_login {
 @media only screen and (max-width: 768px) {
   /* Styles for tablets and smaller screens */
 
-   /* nav-bar */
-   .sidebar_sub_dev ul li button {
+  /* client-navbar */
+  .navbar .links {
+    display: none;
+  }
+  .navbar .toggle_btn {
+    margin: 0 10px;
+    display: block;
+  }
+  .icons {
+    display: flex;
+    padding: 0 10px;
+  }
+  .dropdown_menu {
+    display: block;
+  }
+
+  /* nav-bar */
+  .sidebar_sub_dev ul li button {
     display: flex;
     flex-direction: column !important;
   }
 
-  .sidebar_sub_dev ul li a{
+  .sidebar_sub_dev ul li a {
     display: none;
   }
 
-  .sidebar_sub_dev .navbar_logo_desktop{
+  .sidebar_sub_dev .navbar_logo_desktop {
     display: none;
   }
 
-  .sidebar_sub_dev .profile_name{
+  .sidebar_sub_dev .profile_name {
     display: none;
   }
-  
+
   /* admin login */
+  .admin_login_container {
+    width: 65%;
+  }
+
   .admin_login_main_dev .admin_login_sub_dev {
     display: none;
   }
@@ -561,6 +776,14 @@ hr.dotted_login {
 
 @media only screen and (max-width: 576px) {
   /* Styles for phones and smaller screens */
+
+  /* client-navbar */
+  #search-input {
+    display: none;
+  }
+  .navbar .toggle_search {
+    display: block;
+  }
 
   /* admin-login */
   .admin_login_container {
