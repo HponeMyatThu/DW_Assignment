@@ -1,24 +1,16 @@
 <?php
 $IndexFilePath = "../../php/_index.php";
+$HeaderFilePath = "../layout/header.php";
 
-if (file_exists($IndexFilePath)) {
+if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     include($IndexFilePath);
+    include($HeaderFilePath);
 } else {
-    echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath</strong> - File does not exist.</p>";
+    echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
 adminRegister();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Register</title>
-    <link rel="stylesheet" href="../../styles/index.css?v=<?php echo time(); ?>">
-</head>
 
 <body class="admin_register_body">
     <div class="admin_register_container">
@@ -119,14 +111,13 @@ adminRegister();
     </div>
 </body>
 
-<script>
-    const modal = document.getElementById('toaster');
-    if (modal) {
-        modal.classList.add('show');
-        setTimeout(() => {
-            modal.classList.remove('show');
-        }, 3000);
-    }
-</script>
+<?php
+$FooterFilePath = "../layout/footer.php";
 
-</html>
+if (file_exists($FooterFilePath)) {
+    include($FooterFilePath);
+} else {
+    echo "<p class='error'>Error: Unable to include file <strong>$FooterFilePath</strong> - File does not exist.</p>";
+    return;
+}
+?>
