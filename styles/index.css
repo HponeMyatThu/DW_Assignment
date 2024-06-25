@@ -404,11 +404,11 @@ header a {
   transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.dropdown_about_menu li{
+.dropdown_about_menu li {
   list-style: none !important;
 }
 
-.dropdown_about_menu li a{
+.dropdown_about_menu li a {
   color: #000;
 }
 
@@ -641,6 +641,21 @@ h2 {
   justify-content: space-between;
 }
 
+/* ------------------------------   client-contact   ------------------------------ */
+.admin_contact_container {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 50%;
+  margin: auto;
+}
+
+.admin_contact_main_dev {
+  display: flex;
+  justify-content: space-between;
+  height: 480px;
+}
+
 /* ------------------------------   hot-toaster   ------------------------------ */
 .toaster {
   position: fixed;
@@ -722,6 +737,11 @@ h2 {
     display: none;
   }
 
+  /* contact us */
+  .admin_contact_main_dev .admin_login_sub_dev{
+    display: none;
+  }
+  
   /* admin login */
   .admin_login_container {
     width: 65%;

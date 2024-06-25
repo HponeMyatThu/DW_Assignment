@@ -14,7 +14,64 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 ?>
 
 <body>
-    <?php clientNavbar()?>
+    <?php clientNavbar() ?>
+    <br><br><br><br>
+    <div class="admin_contact_container">
+        <form action="Login.php" method="post">
+            <div class="admin_contact_main_dev">
+                <div class="admin_login_sub_dev">
+                    <img src="../../images/register_cover.png" alt="">
+                </div>
+                <div class="admin_login_sub_dev_form">
+                    <div>
+                        <div class="admin_register_title_main_dev">
+                            <p class="h3_login special_elite_regular">Contact Us Here</p>
+                        </div>
+                        <div>
+                            <hr class="dotted_login">
+                        </div>
+                    </div>
+
+                    <div class="admin_register_form_main_dev">
+                        <div class="admin_register_form_sub_dev">
+                            <div class="admin_login_form-group">
+                                <div class="form_label_with_icon">
+                                    <label for="email" class="special_elite_regular">Email</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="question-icon">
+                                        <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="admin_login_form-group">
+                                <div class="form_label_with_icon">
+                                    <label for="phone" class="special_elite_regular">Phone</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="question-icon">
+                                        <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <input type="phone" id="phone" name="phone" required>
+                            </div>
+                            <div class="admin_register_form-group">
+                                <div class="form_label_with_icon">
+                                    <label for="address" class="special_elite_regular">Address</label>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24" class="question-icon">
+                                        <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
+                                    </svg>
+                                </div>
+                                <textarea id="address" name="address" required></textarea>
+                            </div>
+                            <br>
+                            <div class="admin_register_form-group">
+                                <button type="submit" class="special_elite_regular">Login</button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
 </body>
 
 <?php
