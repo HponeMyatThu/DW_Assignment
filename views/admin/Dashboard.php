@@ -179,8 +179,18 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 </form>
             </div>
         </nav>
-        <div>
-
+        <div class="container">
+            <ul class="responsive-table">
+                <h2 class="special_elite_regular">Contact Us<small class="special_elite_regular">&nbsp;[User]</small></h2>
+                <li class="table-header">
+                    <div class="col col-1 special_elite_regular">Id</div>
+                    <div class="col col-3 special_elite_regular">UserName</div>
+                    <div class="col col-2 special_elite_regular">Email</div>
+                    <div class="col col-3 special_elite_regular">Phone</div>
+                    <div class="col col-1 special_elite_regular">Status</div>
+                </li>
+                <?php adminContactUs() ?>
+            </ul>
         </div>
     </div>
 </body>

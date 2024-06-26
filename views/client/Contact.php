@@ -9,18 +9,34 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
+
 $currentPath = basename($_SERVER['PHP_SELF']);
 
+verifyClientSession();
+
+
+contactUser();
 ?>
 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo ucfirst($currentPath); ?></title>
+    <link rel="stylesheet" href="../../styles/index.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+
 <body>
-    <?php clientNavbar() ?>
+    <?php clientNavbar(); ?>
     <br><br><br><br>
     <div class="admin_contact_container">
-        <form action="Login.php" method="post">
+        <form action="Contact.php" method="post">
             <div class="admin_contact_main_dev">
                 <div class="admin_login_sub_dev">
-                    <img src="../../images/register_cover.png" alt="">
+                    <img src="../../images/register_cover.png" alt="Register Cover">
                 </div>
                 <div class="admin_login_sub_dev_form">
                     <div>
@@ -31,7 +47,6 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                             <hr class="dotted_login">
                         </div>
                     </div>
-
                     <div class="admin_register_form_main_dev">
                         <div class="admin_register_form_sub_dev">
                             <div class="admin_login_form-group">
@@ -50,7 +65,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                                         <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input type="phone" id="phone" name="phone" required>
+                                <input type="text" id="phone" name="phone" required>
                             </div>
                             <div class="admin_register_form-group">
                                 <div class="form_label_with_icon">
@@ -63,11 +78,10 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                             </div>
                             <br>
                             <div class="admin_register_form-group">
-                                <button type="submit" class="special_elite_regular">Login</button>
+                                <button type="submit" class="special_elite_regular">Submit</button>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </form>
@@ -81,6 +95,5 @@ if (file_exists($FooterFilePath)) {
     include($FooterFilePath);
 } else {
     echo "<p class='error'>Error: Unable to include file <strong>$FooterFilePath</strong> - File does not exist.</p>";
-    return;
 }
 ?>

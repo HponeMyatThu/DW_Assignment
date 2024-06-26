@@ -31,6 +31,88 @@ function toaster($message, $failOrSuccess)
     echo "</div>";
 }
 
+function adminContactUs()
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    $query = "SELECT * FROM contact_us";
+    $queryUser = "SELECT * FROM user";
+
+    // Prepare statements
+    $stmt = $connection->prepare($query);
+    $stmtUser = $connection->prepare($queryUser);
+
+    if ($stmt === false || $stmtUser === false) {
+        toaster("Error preparing statement: " . $connection->error, "error");
+        return;
+    }
+
+    $result = $stmt->execute();
+
+    if ($result === false) {
+        toaster("Error executing statement: " . $stmt->error, "error");
+        return;
+    }
+
+    $result = $stmt->get_result();
+    $resultUser = $stmtUser->execute();
+
+    if ($resultUser === false) {
+        toaster("Error executing statement: " . $stmtUser->error, "error");
+        return;
+    }
+
+    $resultUser = $stmtUser->get_result();
+
+    if ($result->num_rows > 0 && $resultUser->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            // Initialize a flag to track if matching user_id is found
+            $userFound = false;
+
+            // Loop through user results to find matching user_id
+            while ($rowUser = $resultUser->fetch_assoc()) {
+                if ($row['user_id'] === $rowUser['id']) {
+                    if ($row['status'] === "DONE") {
+                        break;
+                    }
+                    echo "
+                        <li class=\"table-row\">
+                            <div class=\"col col-1 special_elite_regular\" data-label=\"Id\">" . $row['id'] . "</div>" .
+                        "<div class=\"col col-3 special_elite_regular\" data-label=\"UserName\">" . $rowUser['firstname'] . $rowUser['surname'] . "</div>" .
+                        "<div class=\"col col-2 special_elite_regular\" data-label=\"Email\">" . $row['email'] . "</div>" .
+                        "<div class=\"col col-3 special_elite_regular\" data-label=\"Phone\">" . $row['phone'] . "</div>" .
+                        "<div class=\"col col-1 special_elite_regular\" data-label=\"Status\"><a class=\"special_elite_regular\">" . $row['status'] . "</a></div>" .
+                        "</li>
+                    ";
+                    $userFound = true;
+                    break;
+                }
+            }
+            if (!$userFound) {
+                echo "
+                    <li class=\"table-row\">
+                        <div class=\"col col-12 special_elite_regular\" data-label=\"NOTE:\">" . "contact id: " .  $row['id'] . "<br/>Already contact to user: " . "(" . $rowUser['firstname'] . $rowUser['surname'] . ")" . "</div>
+                    </li>
+                ";
+            }
+            $resultUser->data_seek(0);
+        }
+    } else {
+        echo "
+            <li class=\"table-row\">
+                <div class=\"col col-12 special_elite_regular\" data-label=\"Id\">No user submitted contact us form.</div>
+            </li>
+        ";
+    }
+    $stmt->close();
+    $stmtUser->close();
+}
+
+
 function adminRegister()
 {
     $connection = DBConnection("admin");
@@ -227,6 +309,10 @@ function clientLogin()
 
 function DebugLog($rawString, $value)
 {
+    if (is_array($value)) {
+        $value = json_encode($value);
+    }
+
     echo "<script>" .
         "console.log('$rawString : $value')" .
         "</script>";
@@ -246,6 +332,24 @@ function verifyAdminSession()
         }
 
         return $token;
+    } else {
+        header("Location: Login.php");
+        exit();
+    }
+}
+
+function verifyClientSession()
+{
+    if (isset($_COOKIE['token'])) {
+        $token_json = $_COOKIE['token'];
+        $token = json_decode($token_json, true);
+
+        DebugLog("_index.php => verifyClientSession", json_encode($token));
+        return $token_json;
+        if (isset($token['role']) || $token['role'] !== 'user') {
+            header("Location: Login.php");
+            exit();
+        }
     } else {
         header("Location: Login.php");
         exit();
@@ -313,6 +417,50 @@ function clientNavbar()
     </main>
     ";
 }
+
+function contactUser()
+{
+    $connection = DBConnection("client");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $address = $_POST['address'];
+        $token = verifyClientSession();
+        $tokenArray = json_decode($token, true);
+
+        $user_id = isset($tokenArray['id']) ? $tokenArray['id'] : null;
+
+        $query = "INSERT INTO contact_us (email, phone, address, user_id) VALUES (?, ?, ?, ?)";
+        $stmt = $connection->prepare($query);
+        if (!$stmt) {
+            toaster("Prepare failed: (" . $connection->errno . ") " . $connection->error, "error");
+            return;
+        }
+
+        $stmt->bind_param("sssi", $email, $phone, $address, $user_id);
+        if (!$stmt->execute()) {
+            toaster("Execute failed: (" . $stmt->errno . ") " . $stmt->error, "error");
+            return;
+        }
+
+        $stmt->close();
+        $connection->close();
+
+        toaster("Contact information submitted successfully!", "success");
+    }
+}
+
+
+
+
+
+
+
 
 if (isset($_POST['dashboard_route_button'])) {
     header("Location: Dashboard.php");

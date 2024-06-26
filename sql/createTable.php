@@ -14,13 +14,9 @@ if ($isEmptyFilePath) {
     return;
 }
 
-$isEmpty = empty($create_pitch_type_table)
-    || empty($create_admin_table)
-    || empty($create_user_table)
-    || empty($create_user_table)
-    || empty($create_pitch_table)
-    || empty($create_review_table)
-    || empty($create_booking_table);
+$isEmpty = empty($create_admin_table)
+    || empty($create_contact_us_table)
+    || empty($create_user_table);
 
 if ($isEmpty) {
     echo "<p><strong>Path: /SQL/createTable</strong>: SQL queries are empty.</p>";
@@ -40,6 +36,7 @@ function executeQuery($connection, $query, $tableName)
 
 executeQuery($connection, $create_admin_table, "ADMIN");
 executeQuery($connection, $create_user_table, "USER");
+executeQuery($connection, $create_contact_us_table, "CONTACT_US");
 
 // executeQuery($connection, $create_pitch_type_table, "PITCH TYPE");
 // executeQuery($connection, $create_admin_table, "ADMIN");

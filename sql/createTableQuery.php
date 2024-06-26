@@ -31,18 +31,17 @@ $create_user_table = "CREATE TABLE IF NOT EXISTS user" .
     "primary key(id)" .
     ")";
 
-// $create_user_table = "CREATE TABLE IF NOT EXISTS user" .
-//     "(" .
-//     "id int not null auto_increment" . $comma .
-//     "firstname varchar(50) not null" . $comma .
-//     "surname varchar(50) not null" . $comma .
-//     "password varchar(255) not null" . $comma .
-//     "email varchar(100) not null unique" . $comma .
-//     "phone varchar(30) not null unique" . $comma .
-//     "address varchar(255) not null" . $comma .
-//     "status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'" . $comma .
-//     "primary key(id)" .
-//     ")";
+$create_contact_us_table = "CREATE TABLE IF NOT EXISTS contact_us (" .
+    "id INT NOT NULL AUTO_INCREMENT, " .
+    "email VARCHAR(100) NOT NULL, " .
+    "phone VARCHAR(30) NOT NULL, " .
+    "address VARCHAR(255) NOT NULL, " .
+    "status enum('DONE', 'PENDING') default 'PENDING',".
+    "user_id INT NOT NULL, " .
+    "PRIMARY KEY(id), " .
+    "FOREIGN KEY(user_id) REFERENCES user(id)" .
+    ")";
+
 
 $create_pitch_type_table = "CREATE TABLE IF NOT EXISTS pitch_type" .
     "(" .
