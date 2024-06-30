@@ -10,8 +10,22 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     return;
 }
 verifyAdminSession();
-
 $currentPath = basename($_SERVER['PHP_SELF']);
+
+$id = $name = "";
+
+if(!empty($_GET['id'])){
+    $media = fetchCampignTypeById($_GET['id']);
+    if($media){
+        foreach($media as $item){
+            $id = $item['id'];
+            $name = $item['name'];
+        }
+    }else{
+        echo "<script>console.log(\"Comapign type not found\");</script>";
+    }
+}
+
 ?>
 
 <body>
@@ -76,7 +90,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                         </form>
                     </li>
 
-                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Media Type</a>
+                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Technique</a>
                         <form method="POST">
                             <button type="submit" name="media_type_route_button" id="media_type_route_button" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> media_type_route_button">
                                 <div class="nav_icons">
@@ -178,9 +192,62 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 </form>
             </div>
         </nav>
-        <div>
-            <h1>camp type</h1>
+        <div class="media_register_main_dev">
+            <form action="CampaignType.php" method="POST" enctype="multipart/form-data">
+                <h1 class="special_elite_regular show_center_text">Campign Type Register</h1>
+                <input type="hidden" name="id" class="id" value=<?php echo empty($id) ? "" : $id ?>>
+                <div class="camp_type_register_main_dev_flex">
+                    <label for="media_name" class="special_elite_regular camp_type_name">Name:</label>
+                    <input type="text" id="media_name" class="special_elite_regular" name="media_name" required value=<?php echo empty($name) ? "" : $name ?>>
+                    <?php
+                    if (empty($media)) {
+                        echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"insert_camp_type_btn\" name=\"insert_camp_type_btn\">
+                                submit
+                            </button>
+                            ";
+                    }
+                    ?>
+                    <?php
+                    if (!empty($media)) {
+                        echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"update_camp_type_btn\" name=\"update_camp_type_btn\">
+                                update
+                            </button>
+                        ";
+                    }
+                    ?>
+                </div>
+            </form>
         </div>
+    </div>
+    <br>
+    <div class="media_container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-3 special_elite_regular">Id</div>
+                <div class="col col-2 special_elite_regular">Campaign Type Name</div>
+                <div class="col col-2 special_elite_regular">Action</div>
+            </li>
+            <!-- <li class="table-row">
+                <div class="col col-3 special_elite_regular" data-label="Id : "> 1</div>
+                <div class="col col-2 special_elite_regular" data-label="Name : ">name </div>
+                <div class="col col-2 special_elite_regular" data-label="Action : ">
+                    <div class="camp_type_action_btns">
+                        <form action="Media.php" method="POST">
+                            <input type="hidden" name="id" value="">
+                            <button class="special_elite_regular btn_update" href="Media.php" id="media_update_bth" name="media_update_bth">Update</button>
+                        </form>
+                        <form action="Media.php" method="POST">
+                            <input type="hidden" name="id" value="">
+                            <button class="special_elite_regular btn_delete" href="Media.php" id="media_delete_bth" name="media_delete_bth">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </li> -->
+            <?php showCampType()?>
+        </ul>
+    </div>
     </div>
 </body>
 

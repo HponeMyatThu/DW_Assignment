@@ -9,9 +9,27 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
-verifyAdminSession();
+$id = $name = $image1 = $image2 = $description = $media_id = "";
 
+verifyAdminSession();
 $currentPath = basename($_SERVER['PHP_SELF']);
+
+if (!empty($_GET['id'])) {
+    $media = fetchTechById($_GET['id']);
+    if (!empty($media)) {
+        foreach ($media as $item) {
+            $id = $item['id'];
+            $name = $item['name'];
+            $image1 = $item['image1'];
+            $image2 = $item['image2'];
+            $description = $item['description'];
+            $media_id = $item['media_id'];
+        }
+    } else {
+        echo "<script>console.log(\"Media not found\");</script>";
+    }
+}
+
 ?>
 
 <body>
@@ -76,7 +94,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                         </form>
                     </li>
 
-                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Media Type</a>
+                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Technique</a>
                         <form method="POST">
                             <button type="submit" name="media_type_route_button" id="media_type_route_button" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> media_type_route_button">
                                 <div class="nav_icons">
@@ -178,8 +196,93 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 </form>
             </div>
         </nav>
+        <div class="media_register_main_dev">
+            <form action="MediaType.php" method="POST" enctype="multipart/form-data">
+                <h1 class="special_elite_regular show_center_text">Technique Register</h1>
+                <input type="hidden" name="id" class="id" value="<?php echo empty($id) ? '' : htmlspecialchars($id); ?>">
+                <div class="media_register_main_dev_flex">
+                    <div class="media_register_sub_dev">
+                        <label for="media_name" class="special_elite_regular">Name:</label>
+                        <input type="text" id="media_name" class="special_elite_regular" name="media_name" required value="<?php echo empty($name) ? '' : htmlspecialchars($name); ?>">
+                        <br>
+                        <label for="description" class="special_elite_regular">Desc:</label>
+                        <input type="text" id="description" class="special_elite_regular" name="description" required value="<?php echo empty($description) ? '' : htmlspecialchars($description); ?>">
+                        <br>
+                        <?php displayMediaTypeInTechRegister($media_id); ?>
+                    </div>
+
+                    <div class="media_register_sub_dev">
+                        <label for="image" class="special_elite_regular">Img_1:</label>
+                        <input type="file" id="image1" class="special_elite_regular" name="image1" required onchange="previewImage(this, 'preview1')">
+                        <br>
+                        <label for="image" class="special_elite_regular">Img_2:</label>
+                        <input type="file" id="image2" class="special_elite_regular" name="image2" required onchange="previewImage(this, 'preview2')">
+                        <br>
+                        <div class="tech_image_preview_div">
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview1" src="<?php echo empty($image1) ? '' : htmlspecialchars($image1); ?>">
+                                </div>
+                            </div>
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview2" src="<?php echo empty($image2) ? '' : htmlspecialchars($image2); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <?php
+                        if (empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"insert_tech_btn\" name=\"insert_tech_btn\">
+                                submit
+                            </button>
+                            ";
+                        }
+                        ?>
+                        <?php
+                        if (!empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"update_tech_btn\" name=\"update_tech_btn\">
+                                update
+                            </button>
+                            ";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br>
+    <div class="media_container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1 special_elite_regular">Id</div>
+                <div class="col col-2 special_elite_regular">Name</div>
+                <div class="col col-2 special_elite_regular">IMAGE</div>
+                <div class="col col-1 special_elite_regular">Action</div>
+            </li>
+            <?php showTech() ?>
+        </ul>
+    </div>
     </div>
 </body>
+
+<script>
+    function previewImage(input, previewElementId) {
+        const previewElement = document.getElementById(previewElementId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewElement.src = "";
+        }
+    }
+</script>
 
 <?php
 $FooterFilePath = "../layout/footer.php";

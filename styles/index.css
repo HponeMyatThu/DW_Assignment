@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Special+Elite&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
 
 /* Base styles */
 * {
@@ -153,6 +154,22 @@ img {
   display: none !important;
 }
 
+.show_center_text {
+  display: flex;
+  margin: 20px auto;
+  justify-content: center;
+}
+
+.btn_update{
+  background-color: coral;
+  color: white;
+}
+
+.btn_delete{
+  background-color: red;
+  color: white;
+}
+
 /* ------------------------------   font   ------------------------------ */
 .special_elite_regular {
   font-family: "Special Elite", system-ui;
@@ -297,6 +314,145 @@ hr.dotted_login {
   text-decoration: underline;
   font-size: 0.6rem;
   font-weight: 700;
+}
+/* ------------------------------   technique-type-register   ------------------------------ */
+.tech_image_preview_div{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  justify-content: center;
+}
+
+.tech_image_preview_show{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.tech_select{
+  display: flex; 
+  flex-direction: row;
+}
+
+.media_register_main_dev_flex select {
+  width: 250px !important;
+  height: 35px;
+  border-radius: 0px !important;
+  padding: 5px;
+  margin: 10px 5px;
+}
+
+
+.lbl_center{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* ------------------------------   campign-type-register   ------------------------------ */
+.campign_type_register_main_dev .camp_type_name {
+  display: flex;
+  margin: auto 0;
+}
+
+.camp_type_action_btns{
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.camp_type_register_main_dev_flex input{
+  width: 100%;
+}
+
+/* ------------------------------   Media-register   ------------------------------ */
+.media_register_main_dev {
+  display: flex;
+  margin: 0 auto;
+  width: 80%;
+  justify-content: end;
+  padding-right: 100px;
+}
+
+.media_register_main_dev_flex {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.media_register_main_dev_flex input {
+  width: 250px !important;
+  height: 35px;
+  border-radius: 0px !important;
+  padding: 5px;
+  margin: 10px 5px;
+}
+
+.media_register_sub_dev_img {
+  display: flex !important;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  align-items: end;
+  justify-content: end;
+}
+
+.media_register_sub_dev button {
+  display: flex;
+  justify-content: end;
+  align-items: end;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+.media_register_sub_dev_img .image-preview {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.media_register_sub_dev_img .image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.media_register_sub_dev_img .image-preview img[src]:not([src=""]) {
+  display: block;
+}
+
+.media_container {
+  width: 70%;
+  display: flex;
+  justify-content: end;
+  margin-left: 300px;
+}
+
+.media_container .table-row .sub_dev {
+  display: flex !important;
+  width: 100px;
+  height: 100px;
+  border: 1px solid #000;
+  align-items: end;
+  justify-content: end;
+}
+
+.media_container .table-row .image-preview {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.media_container .table-row .image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.media_container .table-row .image-preview img[src]:not([src=""]) {
+  display: block;
 }
 
 /* ------------------------------   Client-Navbar   ------------------------------ */
@@ -458,12 +614,12 @@ header a {
 }
 
 .sidebar_main_dev {
-  height: 100vh;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   background-color: #ccc;
-  position: fixed !important;;
+  position: fixed !important;
 }
 
 .profile-button {
@@ -547,7 +703,7 @@ header a {
 }
 
 /* ------------------------------   Table   ------------------------------ */
-.admin_container_with_navbar .container{
+.admin_container_with_navbar .container {
   display: flex;
   justify-content: end;
   margin: 0 auto;
@@ -573,7 +729,7 @@ h2 {
     justify-content: space-between;
     margin-bottom: 25px;
   }
-  li a{
+  li a {
     cursor: pointer;
   }
   .table-header {
@@ -600,7 +756,6 @@ h2 {
   }
 
   @media all and (max-width: 767px) {
-
     .table-header {
       display: none;
     }
@@ -619,8 +774,8 @@ h2 {
         color: #6c7a89;
         padding-right: 10px;
         content: attr(data-label);
-        flex-basis: 50%;
-        text-align: right;
+        /* flex-basis: 50%; */
+        /* text-align: right; */
       }
     }
   }
@@ -739,6 +894,21 @@ h2 {
 @media only screen and (max-width: 768px) {
   /* Styles for tablets and smaller screens */
 
+  /*media-register*/
+  .media_register_main_dev {
+    width: 70%;
+    justify-content: center;
+    padding-right: 0px;
+  }
+
+  .media_register_main_dev_flex {
+    flex-direction: column;
+  }
+
+  .media_container {
+    margin-left: 130px;
+  }
+
   /* client-navbar */
   .navbar .links {
     display: none;
@@ -776,6 +946,11 @@ h2 {
   /* contact us */
   .admin_contact_main_dev .admin_login_sub_dev {
     display: none;
+  }
+
+  /* camp-type register */
+  .campign_type_register_main_dev{
+    margin-left: 200px;
   }
 
   /* admin login */
@@ -833,8 +1008,33 @@ h2 {
 @media only screen and (max-width: 576px) {
   /* Styles for phones and smaller screens */
 
+  /* media-register */
+  .media_container {
+    margin-left: 80px;
+  }
+
+  /*camp-type register*/
+  .camp_type_action_btns{
+    flex-direction: column;
+  }
+  
+  .campign_type_register_main_dev{
+    width: 100%;
+    margin-left: 250px;
+  }
+
+  /*media-register*/
+  .media_register_main_dev {
+    width: 70%;
+    margin-left: 100px;
+  }
+
+  .media_register_main_dev_flex input {
+    width: 180px !important;
+  }
+
   /* table */
-  .admin_container_with_navbar .container{
+  .admin_container_with_navbar .container {
     margin-right: 20px;
   }
 

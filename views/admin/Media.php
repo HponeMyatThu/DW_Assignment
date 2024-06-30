@@ -9,9 +9,24 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
-verifyAdminSession();
+$id = $name = $image = $media_link = "";
 
+verifyAdminSession();
 $currentPath = basename($_SERVER['PHP_SELF']);
+
+if (!empty($_GET['id'])) {
+    $media = fetchMediaById($_GET['id']);
+    if (!empty($media)) {
+        foreach ($media as $item) {
+            $id = $item['id'];
+            $name = $item['name'];
+            $image = $item['image'];
+            $media_link = $item['media_link'];
+        }
+    } else {
+        echo "<script>console.log(\"Media not found\");</script>";
+    }
+}
 
 ?>
 
@@ -77,7 +92,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                         </form>
                     </li>
 
-                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Media Type</a>
+                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Technique</a>
                         <form method="POST">
                             <button type="submit" name="media_type_route_button" id="media_type_route_button" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> media_type_route_button">
                                 <div class="nav_icons">
@@ -179,11 +194,82 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 </form>
             </div>
         </nav>
-        <div>
-            <h1>Media</h1>
+        <div class="media_register_main_dev">
+            <form action="Media.php" method="POST" enctype="multipart/form-data">
+                <h1 class="special_elite_regular show_center_text">Media Register</h1>
+                <input type="hidden" name="id" class="id" value=<?php echo empty($id) ? "" : $id ?>>
+                <div class="media_register_main_dev_flex">
+                    <div class="media_register_sub_dev">
+                        <label for="media_name" class="special_elite_regular">Name:</label>
+                        <input type="text" id="media_name" class="special_elite_regular" name="media_name" required value=<?php echo empty($name) ? "" : $name ?>>
+                        <br>
+                        <label for="link" class="special_elite_regular">link:</label>
+                        <input type="text" id="link" class="special_elite_regular" name="link" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                    </div>
+
+                    <div class="media_register_sub_dev">
+                        <label for="image" class="special_elite_regular">Image:</label>
+                        <input type="file" id="image" class="special_elite_regular" name="image" required value=<?php echo empty($image) ? "" : $image ?> onchange="previewImage(this, 'preview1')">
+                        <br>
+                        <div class="media_register_sub_dev_img">
+                            <div class="image-preview">
+                                <img id="preview1" src=<?php echo empty($image) ? "" : $image ?>>
+                            </div>
+                        </div>
+                        <br>
+                        <?php
+                        if (empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"insert_media_btn\" name=\"insert_media_btn\">
+                                submit
+                            </button>
+                            ";
+                        }
+                        ?>
+                        <?php
+                        if (!empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"update_media_btn\" name=\"update_media_btn\">
+                                update
+                            </button>
+                        ";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
+    <br>
+    <div class="media_container">
+        <ul class="responsive-table">
+            <li class="table-header">
+                <div class="col col-1 special_elite_regular">Id</div>
+                <div class="col col-2 special_elite_regular">Name</div>
+                <div class="col col-3 special_elite_regular">Image</div>
+                <div class="col col-2 special_elite_regular">Link</div>
+                <div class="col col-1 special_elite_regular">Action</div>
+            </li>
+            <?php showMedia() ?>
+        </ul>
+    </div>
+    </div>
 </body>
+
+<script>
+    function previewImage(input, previewElementId) {
+        const previewElement = document.getElementById(previewElementId);
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewElement.src = e.target.result;
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            previewElement.src = "";
+        }
+    }
+</script>
 
 <?php
 $FooterFilePath = "../layout/footer.php";

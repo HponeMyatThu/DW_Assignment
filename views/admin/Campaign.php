@@ -76,7 +76,7 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                         </form>
                     </li>
 
-                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Media Type</a>
+                    <li><a href="MediaType.php" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> special_elite_regular">Technique</a>
                         <form method="POST">
                             <button type="submit" name="media_type_route_button" id="media_type_route_button" class="<?php echo ($currentPath == 'MediaType.php') ? 'active' : ''; ?> media_type_route_button">
                                 <div class="nav_icons">
