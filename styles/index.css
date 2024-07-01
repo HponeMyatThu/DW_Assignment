@@ -365,6 +365,28 @@ hr.dotted_login {
   width: 100%;
 }
 
+/* ------------------------------   campign-register   ------------------------------ */
+.camp_register_sub_dev_img {
+  display: flex !important;
+  width: 360px;
+  height: 230px;
+  border: 1px solid #000;
+  align-items: end;
+  justify-content: end;
+}
+
+.camp_register_sub_dev_img .iframe-peview {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.camp_lbl_text{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
 /* ------------------------------   Media-register   ------------------------------ */
 .media_register_main_dev {
   display: flex;

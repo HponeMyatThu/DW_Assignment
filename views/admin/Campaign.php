@@ -9,7 +9,8 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
-verifyAdminSession();
+$sessionInfo = verifyAdminSession();
+$LoginUserEmail = $sessionInfo['email'];
 
 $currentPath = basename($_SERVER['PHP_SELF']);
 ?>
@@ -173,13 +174,124 @@ $currentPath = basename($_SERVER['PHP_SELF']);
                 <form method="POST">
                     <button type="submit" name="profile-button" id="profile-button" class="<?php echo ($currentPath == 'Profile.php') ? 'active' : ''; ?> profile-button">
                         <img src="../../images/admin_pf_icon.png" alt="admin logo" class="profile_avatar">
-                        <span class="profile_name special_elite_regular">Admin Name</span>
+                        <span class="profile_name special_elite_regular"><?php echo $LoginUserEmail ?></span>
                     </button>
                 </form>
             </div>
         </nav>
-        <div>
-            <h1>camp</h1>
+        <div class="media_register_main_dev">
+            <form action="Media.php" method="POST" enctype="multipart/form-data">
+                <h1 class="special_elite_regular show_center_text">Campaign Register</h1>
+                <input type="hidden" name="id" class="id" value=<?php echo empty($id) ? "" : $id ?>>
+                <div class="media_register_main_dev_flex">
+                    <div class="media_register_sub_dev">
+                        <div class="camp_lbl_text">
+                            <label for="name" class="special_elite_regular lbl_center">Name:</label>
+                            <input type="text" id="name" class="special_elite_regular" name="name" required value=<?php echo empty($name) ? "" : $name ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="description" class="special_elite_regular lbl_center">Description:</label>
+                            <input type="text" id="description" class="special_elite_regular" name="description" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="startDate" class="special_elite_regular lbl_center">StartDate:</label>
+                            <input type="date" id="startDate" class="special_elite_regular" name="startDate" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="endDate" class="special_elite_regular lbl_center">EndDate:</label>
+                            <input type="date" id="endDate" class="special_elite_regular" name="endDate" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="fees" class="special_elite_regular lbl_center">Fees:</label>
+                            <input type="number" id="fees" class="special_elite_regular" name="fees" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="maps" class="special_elite_regular lbl_center">Map:</label>
+                            <input type="number" id="maps" class="special_elite_regular" name="maps" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <div class="camp_register_sub_dev_img">
+                            <div class="iframe-peview">
+                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d7638.699724029637!2d96.13568100000002!3d16.808991000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2smm!4v1719726604900!5m2!1sen!2smm" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="media_register_sub_dev">
+                        <div class="camp_lbl_text">
+                            <label for="aims" class="special_elite_regular lbl_center">Aim:</label>
+                            <input type="number" id="aims" class="special_elite_regular" name="aims" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <div class="camp_lbl_text">
+                            <label for="visions" class="special_elite_regular lbl_center">Vision:</label>
+                            <input type="number" id="visions" class="special_elite_regular" name="visions" required value=<?php echo empty($media_link) ? "" : $media_link ?>>
+                        </div>
+                        <br>
+                        <label for="image1" class="special_elite_regular">Img_1:</label>
+                        <input type="file" id="image1" class="special_elite_regular" name="image1" required onchange="previewImage(this, 'preview1')">
+                        <br>
+                        <label for="image2" class="special_elite_regular">Img_2:</label>
+                        <input type="file" id="image2" class="special_elite_regular" name="image2" required onchange="previewImage(this, 'preview2')">
+                        <br>
+                        <div class="tech_image_preview_div">
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview1" src="<?php echo empty($image1) ? '' : htmlspecialchars($image1); ?>">
+                                </div>
+                            </div>
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview2" src="<?php echo empty($image2) ? '' : htmlspecialchars($image2); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <label for="image3" class="special_elite_regular">Img_3:</label>
+                        <input type="file" id="image3" class="special_elite_regular" name="image3" required onchange="previewImage(this, 'preview3')">
+                        <br>
+                        <label for="image4" class="special_elite_regular">Img_4:</label>
+                        <input type="file" id="image4" class="special_elite_regular" name="image4" required onchange="previewImage(this, 'preview4')">
+                        <br>
+                        <div class="tech_image_preview_div">
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview3" src="<?php echo empty($image3) ? '' : htmlspecialchars($image3); ?>">
+                                </div>
+                            </div>
+                            <div class="media_register_sub_dev_img">
+                                <div class="image-preview">
+                                    <img id="preview4" src="<?php echo empty($image4) ? '' : htmlspecialchars($image4); ?>">
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+
+                        <?php
+                        if (empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"insert_camp_btn\" name=\"insert_camp_btn\">
+                                submit
+                            </button>
+                            ";
+                        }
+                        ?>
+                        <?php
+                        if (!empty($media)) {
+                            echo "
+                            <button type=\"submit\" class=\"special_elite_regular\" id=\"update_media_btn\" name=\"update_media_btn\">
+                                update
+                            </button>
+                        ";
+                        }
+                        ?>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </body>

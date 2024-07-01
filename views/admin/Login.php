@@ -49,6 +49,8 @@ adminLogin()
                                 </div>
                                 <input type="password" id="password" name="password" required>
                             </div>
+                            <div class="g-recaptcha" data-sitekey="6LfAowQqAAAAABqOVpAXR10qnWsqNC4k1O5zZF7E">
+                            </div>
                             <div class="admin_register_form-group">
                                 <button type="submit" class="special_elite_regular">Login</button>
                             </div>
@@ -64,6 +66,7 @@ adminLogin()
     </div>
 </body>
 
+<script src="https://www.google.com/recaptcha/api.js"></script>
 <?php
 $FooterFilePath = "../layout/footer.php";
 

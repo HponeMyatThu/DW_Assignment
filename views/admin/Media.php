@@ -11,7 +11,9 @@ if (file_exists($IndexFilePath) && file_exists($HeaderFilePath)) {
 }
 $id = $name = $image = $media_link = "";
 
-verifyAdminSession();
+$sessionInfo = verifyAdminSession();
+$LoginUserEmail = $sessionInfo['email'];
+
 $currentPath = basename($_SERVER['PHP_SELF']);
 
 if (!empty($_GET['id'])) {
@@ -189,7 +191,7 @@ if (!empty($_GET['id'])) {
                 <form method="POST">
                     <button type="submit" name="profile-button" id="profile-button" class="<?php echo ($currentPath == 'Profile.php') ? 'active' : ''; ?> profile-button">
                         <img src="../../images/admin_pf_icon.png" alt="admin logo" class="profile_avatar">
-                        <span class="profile_name special_elite_regular">Admin Name</span>
+                        <span class="profile_name special_elite_regular"><?php echo $LoginUserEmail ?></span>
                     </button>
                 </form>
             </div>

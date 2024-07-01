@@ -22,6 +22,10 @@ function DBConnection($parameter)
     }
 }
 
+if (isset($_POST['insert_camp_btn'])) {
+    
+}
+
 function toaster($message, $failOrSuccess)
 {
     echo "<div class='toaster' id='toaster'>";
