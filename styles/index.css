@@ -451,6 +451,13 @@ hr.dotted_login {
   margin-left: 300px;
 }
 
+.tech_container {
+  width: 70%;
+  display: flex;
+  justify-content: end;
+  margin-left: 300px;
+}
+
 .media_container .table-row .sub_dev {
   display: flex !important;
   width: 100px;
@@ -930,6 +937,9 @@ h2 {
   .media_container {
     margin-left: 130px;
   }
+  .tech_container {
+    margin-left: 130px;
+  }
 
   /* client-navbar */
   .navbar .links {
@@ -1030,15 +1040,52 @@ h2 {
 @media only screen and (max-width: 576px) {
   /* Styles for phones and smaller screens */
 
+  /* camp-register */
+  .camp_register_sub_dev_img {
+    width: 260px;
+    height: 130px;
+  }
+  
+  .camp_lbl_text{
+    flex-direction: column;
+    justify-content: start;
+    text-align: start;
+  }
+
+  .lbl_center{
+    display: flex;
+    justify-content: start;
+    align-items: start;
+  }
+
+  /* tech-register */
+  .media_register_sub_dev .camp_lbl_text select{
+    width: 180px !important;
+  }
+
+  .media_register_sub_dev .camp_lbl_text{
+    justify-content: start;
+  }
+
+  .tech_container {
+    margin-left: 80px;
+  }
+
+  .tech_image_preview_show{
+    flex-direction: column;
+  }
+
   /* media-register */
   .media_container {
     margin-left: 80px;
   }
+  
 
   /*camp-type register*/
   .camp_type_action_btns{
     flex-direction: column;
   }
+
   
   .campign_type_register_main_dev{
     width: 100%;

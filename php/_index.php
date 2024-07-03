@@ -22,8 +22,138 @@ function DBConnection($parameter)
     }
 }
 
+if (isset($_POST['update_camp_btn'])) {
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
+        $fees = $_POST['fees'];
+        $maps = $_POST['maps'];
+        $aims = $_POST['aims'];
+        $visions = $_POST['visions'];
+        $camp_type_id = $_POST['campType'];
+        $media_id = $_POST['mediaType'];
+        $tech_id = $_POST['TechType'];
+
+        // Handle file uploads
+        $uploadDir = "../../uploads/camp/";
+        $image1_upload = uploadFile("image1", $uploadDir);
+        $image2_upload = uploadFile("image2", $uploadDir);
+        $image3_upload = uploadFile("image3", $uploadDir);
+        $image4_upload = uploadFile("image4", $uploadDir);
+
+        $status1 = $image1_upload['status'];
+        $status2 = $image2_upload['status'];
+        $status3 = $image3_upload['status'];
+        $status4 = $image4_upload['status'];
+
+        $image1_path = isset($image1_upload['path']) ? $image1_upload['path'] : '';
+        $image2_path = isset($image2_upload['path']) ? $image2_upload['path'] : '';
+        $image3_path = isset($image3_upload['path']) ? $image3_upload['path'] : '';
+        $image4_path = isset($image4_upload['path']) ? $image4_upload['path'] : '';
+
+        $sql = "
+            UPDATE campign
+            SET 
+                name = '" . $connection->real_escape_string($name) . "',
+                description = '" . $connection->real_escape_string($description) . "',
+                start_date = '" . $connection->real_escape_string($startDate) . "',
+                end_date = '" . $connection->real_escape_string($endDate) . "',
+                fees = '" . $connection->real_escape_string($fees) . "',
+                aims = '" . $connection->real_escape_string($aims) . "',
+                vision = '" . $connection->real_escape_string($visions) . "',
+                map = '" . $connection->real_escape_string($maps) . "',
+                media_id = '" . $connection->real_escape_string($media_id) . "',
+                camp_type_id = '" . $connection->real_escape_string($camp_type_id) . "',
+                tech_id = '" . $connection->real_escape_string($tech_id) . "',
+                image1 = '" . $connection->real_escape_string($image1_path) . "',
+                image2 = '" . $connection->real_escape_string($image2_path) . "',
+                image3 = '" . $connection->real_escape_string($image3_path) . "',
+                image4 = '" . $connection->real_escape_string($image4_path) . "'
+            WHERE id = '" . $connection->real_escape_string($id) . "'
+        ";
+
+        $result = $connection->query($sql);
+
+        if ($result === true) {
+            toaster("Campaign updated successfully", "success");
+        } else {
+            toaster("Error updating campaign: " . $connection->error, "error");
+        }
+    }
+}
+
+
 if (isset($_POST['insert_camp_btn'])) {
-    
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+        $startDate = $_POST['startDate'];
+        $endDate = $_POST['endDate'];
+        $fees = $_POST['fees'];
+        $maps = $_POST['maps'];
+        $aims = $_POST['aims'];
+        $visions = $_POST['visions'];
+        $camp_type_id = $_POST['campType'];
+        $media_id = $_POST['mediaType'];
+        $tech_id = $_POST['TechType'];
+
+        $uploadDir = "../../uploads/camp/";
+        $image1_upload = uploadFile("image1", $uploadDir);
+        $image2_upload = uploadFile("image2", $uploadDir);
+        $image3_upload = uploadFile("image3", $uploadDir);
+        $image4_upload = uploadFile("image4", $uploadDir);
+
+        $status1 = $image1_upload['status'];
+        $status2 = $image2_upload['status'];
+        $status3 = $image3_upload['status'];
+        $status4 = $image4_upload['status'];
+
+        $path1 = isset($image1_upload['path']) ? $image1_upload['path'] : "No path";
+        $path2 = isset($image2_upload['path']) ? $image2_upload['path'] : "No path";
+        $path3 = isset($image3_upload['path']) ? $image3_upload['path'] : "No path";
+        $path4 = isset($image4_upload['path']) ? $image4_upload['path'] : "No path";
+
+        if ($status1 && $status2 && $status3 && $status4) {
+            $image1_path = $image1_upload['path'];
+            $image2_path = $image2_upload['path'];
+            $image3_path = $image3_upload['path'];
+            $image4_path = $image4_upload['path'];
+
+            $sql = "INSERT INTO campign (name, description, image1, image2, image3, image4, start_date, end_date, fees, aims, vision, map, status, media_id, camp_type_id, tech_id)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'DRAFT', ?, ?, ?)";
+
+            $stmt = $connection->prepare($sql);
+            if ($stmt) {
+                $stmt->bind_param("sssssssssssssss", $name, $description, $image1_path, $image2_path, $image3_path, $image4_path, $startDate, $endDate, $fees, $aims, $visions, $maps, $media_id, $camp_type_id, $tech_id);
+
+                if ($stmt->execute()) {
+                    toaster("Campaign created successfully!", "success");
+                } else {
+                    toaster("Error: " . $stmt->error, "error");
+                }
+                $stmt->close();
+            } else {
+                toaster("Error: Could not prepare the SQL statement", "error");
+            }
+        } else {
+            toaster("Error: Image upload failed. Please try again.", "error");
+        }
+    }
 }
 
 function toaster($message, $failOrSuccess)
@@ -563,6 +693,74 @@ if (isset($_POST['update_camp_type_btn'])) {
     }
 }
 
+function displayCampTypeInCampRegister($camp_id = null)
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        echo "<script>toaster('Error: Database connection could not be established', 'error');</script>";
+        return;
+    }
+    $query = "SELECT * FROM campign_type;";
+    $stmt = $connection->prepare($query);
+    if (!$stmt) {
+        echo "<script>toaster('Prepare failed: (" . $connection->errno . ") " . $connection->error . "', 'error');</script>";
+        return;
+    }
+    $stmt->execute();
+    $resultSet = $stmt->get_result();
+    $camp_types = [];
+    if ($resultSet->num_rows > 0) {
+        $camp_types = $resultSet->fetch_all(MYSQLI_ASSOC);
+    }
+    $stmt->close();
+    $connection->close();
+    echo "<div class=\"camp_lbl_text\">" .
+        "<label for=\"link\" class=\"special_elite_regular lbl_center\">C_id:</label>" .
+        "<select name=\"campType\" id=\"campType\" class=\"special_elite_regular\">" .
+        "<option value=\"campType\">Select Campaign Type</option>";
+    foreach ($camp_types as $campTypeItem) {
+        $selected = ($campTypeItem['id'] == $camp_id) ? "selected" : "";
+        echo "<option value=\"" . $campTypeItem['id'] . "\" $selected>" . htmlspecialchars($campTypeItem['name']) . "</option>";
+    }
+    echo "</select></div>";
+}
+
+function displayTechInCampRegister($tech_id = null)
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        echo "<script>toaster('Error: Database connection could not be established', 'error');</script>";
+        return;
+    }
+    $query = "SELECT * FROM technique;";
+    $stmt = $connection->prepare($query);
+    if (!$stmt) {
+        echo "<script>toaster('Prepare failed: (" . $connection->errno . ") " . $connection->error . "', 'error');</script>";
+        return;
+    }
+
+    $stmt->execute();
+    $resultSet = $stmt->get_result();
+    $media = [];
+    if ($resultSet->num_rows > 0) {
+        $media = $resultSet->fetch_all(MYSQLI_ASSOC);
+    }
+    $stmt->close();
+    $connection->close();
+
+    echo "<div class=\"camp_lbl_text\">" .
+        "<label for=\"link\" class=\"special_elite_regular lbl_center\">T_id:</label>" .
+        "<select name=\"TechType\" id=\"TechType\" class=\"special_elite_regular\">" .
+        "<option value=\"TechType\">Select Media</option>";
+
+    foreach ($media as $mediaItem) {
+        $selected = ($mediaItem['id'] == $tech_id) ? "selected" : "";
+        echo "<option value=\"" . $mediaItem['id'] . "\" $selected>" . htmlspecialchars($mediaItem['name']) . "</option>";
+    }
+
+    echo "</select></div>";
+}
+
 function displayMediaTypeInTechRegister($media_id = null)
 {
     $connection = DBConnection("admin");
@@ -587,7 +785,7 @@ function displayMediaTypeInTechRegister($media_id = null)
     $stmt->close();
     $connection->close();
 
-    echo "<div class=\"tech_select\">" .
+    echo "<div class=\"camp_lbl_text\">" .
         "<label for=\"link\" class=\"special_elite_regular lbl_center\">M_id:</label>" .
         "<select name=\"mediaType\" id=\"mediaType\" class=\"special_elite_regular\">" .
         "<option value=\"mediaType\">Select Media</option>";
@@ -691,7 +889,6 @@ if (isset($_POST['update_tech_btn'])) {
     }
 }
 
-
 function fetchMediaById($id)
 {
     $connection = DBConnection("admin");
@@ -722,6 +919,39 @@ function fetchMediaById($id)
         return $media;
     } else {
         $stmt->close();
+        $connection->close();
+        return [];
+    }
+}
+
+function fetchCampignById($id)
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return [];
+    }
+    $query = "SELECT * FROM campign WHERE id = ?;";
+    $stmte = $connection->prepare($query);
+    if (!$stmte) {
+        toaster("Prepare failed: (" . $connection->errno . ") " . $connection->error, "error");
+        return [];
+    }
+    $stmte->bind_param("i", $id);
+    $result = $stmte->execute();
+    if (!$result) {
+        toaster("Execute failed: (" . $stmte->errno . ") " . $stmte->error, "error");
+        return [];
+    }
+
+    $resultSet = $stmte->get_result();
+    if ($resultSet->num_rows > 0) {
+        $campign = $resultSet->fetch_all(MYSQLI_ASSOC);
+        $stmte->close();
+        $connection->close();
+        return $campign;
+    } else {
+        $stmte->close();
         $connection->close();
         return [];
     }
@@ -838,6 +1068,69 @@ function showMedia()
     }
 }
 
+function showCamp()
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        echo "<script>toaster('Error: Database connection could not be established', 'error');</script>";
+        return;
+    }
+
+    $query = "
+        SELECT 
+            c.id, 
+            c.name, 
+            m.name AS media_name, 
+            t.name AS technique_name, 
+            ct.name AS camp_type_name 
+        FROM 
+            campign c
+        JOIN 
+            media m ON c.media_id = m.id
+        JOIN 
+            technique t ON c.tech_id = t.id
+        JOIN 
+            campign_type ct ON c.camp_type_id = ct.id
+    ";
+
+    $result = $connection->query($query);
+
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo
+            "
+            <li class=\"table-row\">
+                <div class=\"col col-1 special_elite_regular\">" . htmlspecialchars($row['id']) . "</div>
+                <div class=\"col col-3 special_elite_regular\">" . htmlspecialchars($row['name']) . "</div>
+                <div class=\"col col-3 special_elite_regular\">" . htmlspecialchars($row['media_name']) . "</div>
+                <div class=\"col col-3 special_elite_regular\">" . htmlspecialchars($row['technique_name']) . "</div>
+                <div class=\"col col-3 special_elite_regular\">" . htmlspecialchars($row['camp_type_name']) . "</div>
+                <div class=\"col col-1 special_elite_regular\" data-label=\"Action : \">
+                    <div class=\"\">
+                        <form action=\"Campaign.php\" method=\"POST\">
+                            <input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($row['id']) . "\">
+                            <button class=\"special_elite_regular btn_update\" type=\"submit\" id=\"camp_update_bth\" name=\"camp_update_bth\">Detail</button>
+                        </form>
+                        <br />
+                        <form action=\"Campaign.php\" method=\"POST\">
+                            <input type=\"hidden\" name=\"id\" value=\"" . htmlspecialchars($row['id']) . "\">
+                            <button class=\"special_elite_regular btn_delete\" type=\"submit\" id=\"camp_delete_bth\" name=\"camp_delete_bth\">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </li>
+            ";
+        }
+    } else {
+        echo "
+        <li class=\"table-row\">
+            <div class=\"col col-12 special_elite_regular\" data-label=\"Id\">No campaigns found.</div>
+        </li>
+        ";
+    }
+}
+
+
 function showTech()
 {
     $connection = DBConnection("admin");
@@ -854,7 +1147,7 @@ function showTech()
             <li class=\"table-row\">
                 <div class=\"col col-1 special_elite_regular\" data-label=\"Id : \">" . htmlspecialchars($row['id']) . "</div>
                 <div class=\"col col-2 special_elite_regular\" data-label=\"Name : \">" . htmlspecialchars($row['name']) . "</div>
-                <div class=\"col col-2 special_elite_regular\" data-label=\"Image : \">
+                <div class=\"col col-2 special_elite_regular\" data-label=\"Image \">
                     <div class=\"tech_image_preview_show\">
                         <div class=\"sub_dev\">
                             <div class=\"image-preview\">
@@ -894,6 +1187,11 @@ function showTech()
 if (isset($_POST['tech_update_bth'])) {
     $id = $_POST['id'];
     header("location: MediaType.php?id=" . $id);
+}
+
+if (isset($_POST['camp_update_bth'])) {
+    $id = $_POST['id'];
+    header("location: Campaign.php?id=" . $id);
 }
 
 function showCampType()
@@ -1042,6 +1340,39 @@ if (isset($_POST['media_delete_bth'])) {
     }
 }
 
+if (isset($_POST['camp_delete_bth'])) {
+    $id = $_POST['id'];
+    if ($id > 0) {
+        $connection = DBConnection("admin");
+        if ($connection === null) {
+            echo "<p class='error'>Error: Database connection could not be established.</p>";
+            return;
+        }
+        $stmt = $connection->prepare("DELETE FROM campign WHERE id = ?");
+        if ($stmt === false) {
+            echo "<p class='error'>Error: Failed to prepare statement.</p>";
+            error_log("Prepare failed: " . $connection->error);
+            return;
+        }
+        $stmt->bind_param('i', $id);
+        if ($stmt->execute()) {
+            header("location: CampaignTable.php");
+            toaster('Successfully Delete', 'success');
+            exit();
+        } else {
+            header("location: CampaignTable.php");
+            toaster('Error: Could not delete campaign.', 'error');
+            error_log("Execute failed: " . $stmt->error);
+            exit();
+            $stmt->close();
+            $connection->close();
+        }
+    } else {
+        echo "<p class='error'>Invalid ID.</p>";
+        error_log("Invalid ID: " . $id);
+    }
+}
+
 if (isset($_POST['tech_delete_bth'])) {
     $id = $_POST['id'];
     if ($id > 0) {
@@ -1061,11 +1392,11 @@ if (isset($_POST['tech_delete_bth'])) {
         $stmt->bind_param('i', $id);
         if ($stmt->execute()) {
             header("location: MediaType.php");
-            echo "<script>toaster('Successfully Delete', 'success');</script>";
+            toaster('Successfully Delete', 'success');
             exit();
         } else {
             header("location: MediaType.php");
-            echo "<script>toaster('Error: Could not delete pitch type.', 'error');</script>";
+            toaster('Error: Could not delete pitch type.', 'error');
             error_log("Execute failed: " . $stmt->error);
             exit();
         }
@@ -1124,7 +1455,11 @@ if (isset($_POST['campign_type_route_button'])) {
     header("Location: CampaignType.php");
     exit();
 }
+if (isset($_POST['campign_table_route_button'])) {
+    header("Location: CampaignTable.php");
+    exit();
+}
 if (isset($_POST['profile-button'])) {
-    header("Location: Profile.php");
+    adminLogout();
     exit();
 }
