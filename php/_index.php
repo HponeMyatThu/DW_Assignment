@@ -1,5 +1,7 @@
 <?php
 session_start();
+const MAX_LOGIN_ATTEMPTS = 3;
+const LOCKOUT_TIME = 600;
 
 function DBConnection($parameter)
 {
@@ -7,6 +9,8 @@ function DBConnection($parameter)
         $DBConnectionFilePath = "../../db/DBConnection.php";
     } else if ($parameter === "admin") {
         $DBConnectionFilePath = "../../db/DBConnection.php";
+    } else if ($parameter === "index") {
+        $DBConnectionFilePath = "./db/DBConnection.php";
     }
 
     if (file_exists($DBConnectionFilePath)) {
@@ -20,6 +24,26 @@ function DBConnection($parameter)
         ";
         return null;
     }
+}
+
+function clientFooter()
+{
+    $currentPath = basename($_SERVER['PHP_SELF']);
+    $title = explode(".", $currentPath);
+
+    echo "
+    <footer class=\"footer\">
+    <p class=\"special_elite_regular\">Your are At <b> <strong class=\"special_elite_regular bold\">" . $title[0] . "</strong> </b> page.</p>
+    <div class=\"social-icons\">
+        <a href=\"https://www.facebook.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"special_elite_regular\"><i class=\"fab fa-facebook-f\"></i></a>
+        <a href=\"https://www.twitter.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"special_elite_regular\"><i class=\"fab fa-twitter\"></i></a>
+        <a href=\"https://www.instagram.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"special_elite_regular\"><i class=\"fab fa-instagram\"></i></a>
+        <a href=\"https://www.linkedin.com\" target=\"_blank\" rel=\"noopener noreferrer\" class=\"special_elite_regular\"><i class=\"fab fa-linkedin-in\"></i></a>
+    </div>
+    <div class=\"footer_copy_right_div\">
+    <div>&copy;</div><p class=\"special_elite_regular\">2024 Your Company. All rights reserved.</p>
+    </div>
+</footer>";
 }
 
 if (isset($_POST['update_camp_btn'])) {
@@ -297,6 +321,19 @@ function adminLogin()
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        // Check if the user is locked out
+        if (isset($_SESSION['failed_attempts']) && $_SESSION['failed_attempts'] >= MAX_LOGIN_ATTEMPTS) {
+            $last_attempt_time = $_SESSION['last_attempt_time'];
+            if (time() - $last_attempt_time < LOCKOUT_TIME) {
+                toaster("Too many login attempts. Please try again in 10 minutes", "error");
+                return;
+            } else {
+                // Reset attempts after lockout period
+                $_SESSION['failed_attempts'] = 0;
+                unset($_SESSION['last_attempt_time']);
+            }
+        }
+
         $query = "SELECT id, password FROM admin WHERE email = ?";
         $stmt = $connection->prepare($query);
         if ($stmt === false) {
@@ -329,18 +366,37 @@ function adminLogin()
                 setcookie('token', $token_json, time() + (86400 * 30), '/');
                 session_start();
 
+                // Reset failed attempts on successful login
+                $_SESSION['failed_attempts'] = 0;
+                unset($_SESSION['last_attempt_time']);
+
                 toaster("User login successful", "success");
 
                 header("Location: Dashboard.php");
                 exit();
             } else {
-                toaster("Invalid email or password", "error");
+                handleFailedLoginAttempt();
             }
         } else {
-            toaster("Invalid email or password", "error");
+            handleFailedLoginAttempt();
         }
 
         $stmt->close();
+    }
+}
+
+function handleFailedLoginAttempt()
+{
+    if (!isset($_SESSION['failed_attempts'])) {
+        $_SESSION['failed_attempts'] = 0;
+    }
+    $_SESSION['failed_attempts']++;
+    $_SESSION['last_attempt_time'] = time();
+
+    if ($_SESSION['failed_attempts'] >= MAX_LOGIN_ATTEMPTS) {
+        toaster("Too many login attempts. Please try again in 10 minutes.", "error");
+    } else {
+        toaster("Invalid email or password", "error");
     }
 }
 
@@ -394,6 +450,19 @@ function clientLogin()
         $email = $_POST['email'];
         $password = $_POST['password'];
 
+        // Check if the user is locked out
+        if (isset($_SESSION['failed_attempts']) && $_SESSION['failed_attempts'] >= MAX_LOGIN_ATTEMPTS) {
+            $last_attempt_time = $_SESSION['last_attempt_time'];
+            if (time() - $last_attempt_time < LOCKOUT_TIME) {
+                toaster("Too many login attempts. Please try again in 10 minutes", "error");
+                return;
+            } else {
+                // Reset attempts after lockout period
+                $_SESSION['failed_attempts'] = 0;
+                unset($_SESSION['last_attempt_time']);
+            }
+        }
+
         $query = "SELECT id, password FROM user WHERE email = ?";
         $stmt = $connection->prepare($query);
         if ($stmt === false) {
@@ -426,15 +495,19 @@ function clientLogin()
                 setcookie('token', $token_json, time() + (86400 * 30), '/');
                 session_start();
 
+                // Reset failed attempts on successful login
+                $_SESSION['failed_attempts'] = 0;
+                unset($_SESSION['last_attempt_time']);
+
                 toaster("User login successful", "success");
 
-                header("Location: ../../index.php");
+                header("Location:  ../../index.php");
                 exit();
             } else {
-                toaster("Invalid email or password", "error");
+                handleFailedLoginAttempt();
             }
         } else {
-            toaster("Invalid email or password", "error");
+            handleFailedLoginAttempt();
         }
 
         $stmt->close();
@@ -479,16 +552,19 @@ function verifyClientSession()
         $token = json_decode($token_json, true);
 
         DebugLog("_index.php => verifyClientSession", json_encode($token));
-        return $token_json;
-        if (isset($token['role']) || $token['role'] !== 'user') {
+
+        if (!isset($token['role']) || $token['role'] !== 'user') {
             header("Location: Login.php");
             exit();
         }
+
+        return $token_json;
     } else {
         header("Location: Login.php");
         exit();
     }
 }
+
 
 function adminLogout()
 {
@@ -502,23 +578,23 @@ function adminLogout()
 
 function clientNavbar()
 {
-    echo
-    "
+    $currentPath = basename($_SERVER['PHP_SELF'], ".php");
+
+    echo "
     <header>
         <div class=\"navbar\">
             <div class=\"logo\">
-                <a href=\"../../index.php\" class=\"special_elite_regular\">CAMPIGN</a>
+                <a href=\"../../index.php\" class=\"special_elite_regular\">CAMPAIGN</a>
             </div>
             <ul class=\"links\">
-                <li><a href=\"Information.php\" class=\"special_elite_regular\">Infromation</a></li>
-                <li><a href=\"Media.php\" class=\"special_elite_regular\">Media</a></li>
-                <li class=\"about_nav\"><a class=\"special_elite_regular\">About</a></li>
+                <li><a href=\"Information.php\" class=\"special_elite_regular " . ($currentPath == 'Information' ? 'active' : '') . "\">Information</a></li>
+                <li><a href=\"Media.php\" class=\"special_elite_regular " . ($currentPath == 'Media' ? 'active' : '') . "\">Media</a></li>
+                <li class=\"about_nav\"><a class=\"special_elite_regular\" " . ($currentPath != 'Media' || $currentPath != 'Information' ? 'active' : '') . "\">About</a></li>
             </ul>
             <div class=\"icons\">
-                <input type=\"text\" class=\"special_elite_regular\" placeholder=\"Search\" id=\"search-input\">
-                <div class=\"toggle_search\">
-                    <i class=\"fa fa-search\" aria-hidden=\"true\"></i>
-                </div>
+                <form action=\"\" method=\"GET\" class=\"search-form\">
+                    <input type=\"text\" name=\"search\" class=\"special_elite_regular\" placeholder=\"Search\" id=\"search-input\">
+                </form>
                 <div class=\"toggle_btn\">
                     <i class=\"fa fa-bars\" aria-hidden=\"true\"></i>
                 </div>
@@ -528,21 +604,21 @@ function clientNavbar()
     <main>
         <div class=\"dropdown_about_menu\">
             <ul>
-                <li><a href=\"Parent.php\" class=\"special_elite_regular\">Parent</a></li>
-                <li><a href=\"Livestream.php\" class=\"special_elite_regular\">Livestream</a></li>
-                <li><a href=\"Contact.php\" class=\"special_elite_regular\">Contact</a></li>
-                <li><a href=\"Guide.php\" class=\"special_elite_regular\">Guide</a></li>
+                <li><a href=\"Parent.php\" class=\"special_elite_regular " . ($currentPath == 'Parent' ? 'active' : '') . "\">Parent</a></li>
+                <li><a href=\"Livestream.php\" class=\"special_elite_regular " . ($currentPath == 'Livestream' ? 'active' : '') . "\">Livestream</a></li>
+                <li><a href=\"Contact.php\" class=\"special_elite_regular " . ($currentPath == 'Contact' ? 'active' : '') . "\">Contact</a></li>
+                <li><a href=\"Guide.php\" class=\"special_elite_regular " . ($currentPath == 'Guide' ? 'active' : '') . "\">Guide</a></li>
             </ul>
         </div>
         <div class=\"dropdown_menu\">
             <ul>
-                <li><a href=\"../../index.php\" class=\"special_elite_regular\">Home</a></li>
-                <li><a href=\"Information.php\" class=\"special_elite_regular\">Infromation</a></li>
-                <li><a href=\"Media.php\" class=\"special_elite_regular\">Media</a></li>
-                <li><a href=\"Parent.php\" class=\"special_elite_regular\">Parent</a></li>
-                <li><a href=\"Livestream.php\" class=\"special_elite_regular\">Livestream</a></li>
-                <li><a href=\"Contact.php\" class=\"special_elite_regular\">Contact</a></li>
-                <li><a href=\"Guide.php\" class=\"special_elite_regular\">Guide</a></li>
+                <li><a href=\"../../index.php\" class=\"special_elite_regular " . ($currentPath == 'index' ? 'active' : '') . "\">Home</a></li>
+                <li><a href=\"Information.php\" class=\"special_elite_regular " . ($currentPath == 'Information' ? 'active' : '') . "\">Information</a></li>
+                <li><a href=\"Media.php\" class=\"special_elite_regular " . ($currentPath == 'Media' ? 'active' : '') . "\">Media</a></li>
+                <li><a href=\"Parent.php\" class=\"special_elite_regular " . ($currentPath == 'Parent' ? 'active' : '') . "\">Parent</a></li>
+                <li><a href=\"Livestream.php\" class=\"special_elite_regular " . ($currentPath == 'Livestream' ? 'active' : '') . "\">Livestream</a></li>
+                <li><a href=\"Contact.php\" class=\"special_elite_regular " . ($currentPath == 'Contact' ? 'active' : '') . "\">Contact</a></li>
+                <li><a href=\"Guide.php\" class=\"special_elite_regular " . ($currentPath == 'Guide' ? 'active' : '') . "\">Guide</a></li>
             </ul>
         </div>
         <div class=\"dropdown_search\">
@@ -551,6 +627,7 @@ function clientNavbar()
     </main>
     ";
 }
+
 
 function contactUser()
 {
@@ -1065,8 +1142,149 @@ function showMedia()
             </li>
             ";
         }
+    } else {
+        echo "
+        <li class=\"table-row\">
+            <div class=\"col col-12 special_elite_regular\" data-label=\"Id\">No Media found.</div>
+        </li>
+        ";
     }
 }
+
+function clientMediaShowIndex()
+{
+    $connection = DBConnection("index");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    $searchQuery = isset($_GET['search']) ? $connection->real_escape_string($_GET['search']) : '';
+
+    if (!empty($searchQuery)) {
+        $query = "SELECT * FROM technique WHERE name LIKE '%$searchQuery%' OR description LIKE '%$searchQuery%';";
+    } else {
+        $query = "SELECT * FROM technique;";
+    }
+
+    $result = $connection->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $imagePath = $row['image1'];
+            $updatedImagePath = str_replace('../../uploads', './uploads', $imagePath);
+            echo
+            "
+           <div class=\"card_hor\">
+            <img src=\"" .  $updatedImagePath . "\" alt=\"Card image\" class=\"card-img\">
+            <div class=\"card-content\">
+                <h2 class=\"card-title special_elite_regular\">" . $row['name'] . "</h2>
+                <p class=\"card-description special_elite_regular\">". (strlen($row['description']) > 100 ? substr(htmlspecialchars($row['description']), 0, 100) . '...' : htmlspecialchars($row['description'])) ."</p>
+                <a href=\"MediaDetail.php?id=" . htmlspecialchars($row['id']) . "\" class=\"card-btn special_elite_regular\">Read More</a>
+            </div>
+        </div>
+            ";
+        }
+    } else {
+        echo "<p>No results found for '$searchQuery'</p>";
+    }
+}
+
+function clientShowMediaIndex()
+{
+    $connection = DBConnection("index");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    $query = "SELECT * FROM media;";
+    $result = $connection->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $imagePath = $row['image'];
+            $updatedImagePath = str_replace('../../uploads', './uploads', $imagePath);
+            echo
+            "
+           <div class=\"card_hor\">
+            <img src=\"" .  $updatedImagePath . "\" alt=\"Card image\" class=\"card-img\">
+            <div class=\"card-content\">
+                <h2 class=\"card-title special_elite_regular\">" . $row['name'] . "</h2>
+                <p class=\"card-description special_elite_regular\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero eu elit sagittis feugiat.</p>
+            </div>
+        </div>
+            ";
+        }
+    }
+}
+
+function clientTechShow()
+{
+    $connection = DBConnection("client");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+    $searchQuery = isset($_GET['search']) ? $connection->real_escape_string($_GET['search']) : '';
+
+    if (!empty($searchQuery)) {
+        $query = "SELECT * FROM technique WHERE name LIKE '%$searchQuery%' OR description LIKE '%$searchQuery%';";
+    } else {
+        $query = "SELECT * FROM technique;";
+    }
+
+    $result = $connection->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "
+            <div class=\"card\">
+                <img src=\"" . htmlspecialchars($row['image1']) . "\" alt=\"Card image\" class=\"card-img\">
+                <div class=\"card-content\">
+                    <h2 class=\"card-title special_elite_regular\">" . htmlspecialchars($row['name']) . "</h2>
+                    <p class=\"card-description special_elite_regular\">" . (strlen($row['description']) > 100 ? substr(htmlspecialchars($row['description']), 0, 100) . '...' : htmlspecialchars($row['description'])) . "</p>
+                    <a href=\"MediaDetail.php?id=" . htmlspecialchars($row['id']) . "\" class=\"card-btn special_elite_regular\">Read More</a>
+                </div>
+            </div>
+            ";
+        }
+    } else {
+        echo "<p>No results found for '$searchQuery'</p>";
+    }
+}
+
+function clientInformationShow()
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+    $searchQuery = isset($_GET['search']) ? $connection->real_escape_string($_GET['search']) : '';
+
+    if (!empty($searchQuery)) {
+        $query = "SELECT * FROM campign WHERE name LIKE '%$searchQuery%' OR description LIKE '%$searchQuery%';";
+    } else {
+        $query = "SELECT * FROM campign;";
+    }
+
+    $result = $connection->query($query);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "
+            <div class=\"card\">
+                <img src=\"" . htmlspecialchars($row['image1']) . "\" alt=\"Card image\" class=\"card-img\">
+                <div class=\"card-content\">
+                    <h2 class=\"card-title special_elite_regular\">" . htmlspecialchars($row['name']) . "</h2>
+                    <p class=\"card-description special_elite_regular\">" . (strlen($row['description']) > 100 ? substr(htmlspecialchars($row['description']), 0, 100) . '...' : htmlspecialchars($row['description'])) . "</p>
+                    <a href=\"InformationDetail.php?id=" . htmlspecialchars($row['id']) . "\" class=\"card-btn special_elite_regular\">Detail</a>
+                </div>
+            </div>
+            ";
+        }
+    } else {
+        echo "<p>No results found for '$searchQuery'</p>";
+    }
+}
+
 
 function showCamp()
 {
@@ -1177,7 +1395,11 @@ function showTech()
             </li>";
         }
     } else {
-        echo "<p>No records found.</p>";
+        echo "
+        <li class=\"table-row\">
+            <div class=\"col col-12 special_elite_regular\" data-label=\"Id\">No Techniques found.</div>
+        </li>
+        ";
     }
     $result->close();
     $connection->close();

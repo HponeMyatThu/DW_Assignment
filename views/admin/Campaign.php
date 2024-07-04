@@ -42,8 +42,6 @@ if (!empty($_GET['id'])) {
         echo "<script>console.log(\"Media not found\");</script>";
     }
 }
-
-
 ?>
 
 <body>

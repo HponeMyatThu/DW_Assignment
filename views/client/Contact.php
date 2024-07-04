@@ -14,7 +14,6 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
 verifyClientSession();
 
-
 contactUser();
 ?>
 
@@ -38,7 +37,7 @@ contactUser();
                 <div class="admin_login_sub_dev">
                     <img src="../../images/register_cover.png" alt="Register Cover">
                 </div>
-                <div class="admin_login_sub_dev_form">
+                <div class="admin_contact_sub_dev_form">
                     <div>
                         <div class="admin_register_title_main_dev">
                             <p class="h3_login special_elite_regular">Contact Us Here</p>
@@ -76,6 +75,9 @@ contactUser();
                                 </div>
                                 <textarea id="address" name="address" required></textarea>
                             </div>
+                            <div class="privacy-policy">
+                                <p class="special_elite_regular">By submitting this form, you agree to our <a href="Policy.php" class="special_elite_regular">Privacy Policy</a>.</p>
+                            </div>
                             <br>
                             <div class="admin_register_form-group">
                                 <button type="submit" class="special_elite_regular">Submit</button>
@@ -87,6 +89,10 @@ contactUser();
         </form>
     </div>
 </body>
+<br>
+<br>
+<br>
+<?php clientFooter(); ?>
 
 <?php
 $FooterFilePath = "../layout/footer.php";

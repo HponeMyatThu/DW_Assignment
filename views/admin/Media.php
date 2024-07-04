@@ -238,14 +238,13 @@ if (!empty($_GET['id'])) {
 
                     <div class="media_register_sub_dev">
                         <label for="image" class="special_elite_regular">Image:</label>
-                        <input type="file" id="image" class="special_elite_regular" name="image" required value=<?php echo empty($image) ? "" : $image ?> onchange="previewImage(this, 'preview1')">
+                        <input type="file" id="image" class="special_elite_regular" name="image" required onchange="previewImage(this, 'preview1')">
                         <br>
                         <div class="media_register_sub_dev_img">
                             <div class="image-preview">
-                                <img id="preview1" src=<?php echo empty($image) ? "" : $image ?>>
+                                <img id="preview1" src="<?php echo empty($image) ? '' : $image; ?>" alt="Image Preview">
                             </div>
                         </div>
-                        <br>
                         <?php
                         if (empty($media)) {
                             echo "

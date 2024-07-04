@@ -59,7 +59,7 @@ $create_campign_type_table = "CREATE TABLE IF NOT EXISTS campign_type (" .
 $create_technique_table = "CREATE TABLE IF NOT EXISTS technique (
         id INT NOT NULL AUTO_INCREMENT, 
         name VARCHAR(100) NOT NULL, 
-        description VARCHAR(255) NOT NULL, 
+        description TEXT NOT NULL, 
         image1 VARCHAR(255) NOT NULL, 
         image2 VARCHAR(255) NOT NULL, 
         media_id INT NOT NULL,

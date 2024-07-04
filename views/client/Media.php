@@ -14,7 +14,11 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 ?>
 
 <body>
-    <?php clientNavbar()?>
+    <?php clientNavbar() ?>
+    <div class="card-media-container">
+        <?php clientTechShow()?>
+    </div>
+    <?php clientFooter() ?>
 </body>
 
 <?php

@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Special+Elite&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Special+Elite&display=swap");
 
 /* Base styles */
 * {
@@ -30,6 +30,17 @@ body {
   font-size: 16px;
   color: #333;
   background-color: #fff;
+  cursor: url("../images/admin_pf_icon.png"), auto;
+}
+
+/* Add more styles as needed */
+
+body {
+  line-height: 1.6;
+  font-size: 16px;
+  color: #333;
+  background-color: #fff;
+  cursor: url("../images/admin_pf_icon.png"), auto;
 }
 
 h1,
@@ -160,14 +171,31 @@ img {
   justify-content: center;
 }
 
-.btn_update{
+.btn_update {
   background-color: coral;
   color: white;
 }
 
-.btn_delete{
+.btn_delete {
   background-color: red;
   color: white;
+}
+
+.active {
+  text-decoration: underline;
+  color: blue;
+}
+
+.card-content .main_dev {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 50px;
+}
+
+.index_title{
+  display: flex;
+  margin: 0 auto;
 }
 
 /* ------------------------------   font   ------------------------------ */
@@ -175,6 +203,41 @@ img {
   font-family: "Special Elite", system-ui;
   font-weight: 400;
   font-style: normal;
+}
+
+/* ------------------------------   guide   ------------------------------ */
+.guide_container {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.guide_container h1 {
+  text-align: center;
+  color: #4a4a4a;
+}
+
+.content {
+  margin: 20px 0;
+  margin-top: 100px;
+}
+
+.content p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+footer {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 14px;
+  color: #777;
 }
 
 /* ------------------------------   admin_register   ------------------------------ */
@@ -316,21 +379,21 @@ hr.dotted_login {
   font-weight: 700;
 }
 /* ------------------------------   technique-type-register   ------------------------------ */
-.tech_image_preview_div{
+.tech_image_preview_div {
   display: flex;
   flex-direction: row;
   gap: 20px;
   justify-content: center;
 }
 
-.tech_image_preview_show{
+.tech_image_preview_show {
   display: flex;
   flex-direction: row;
   gap: 20px;
 }
 
-.tech_select{
-  display: flex; 
+.tech_select {
+  display: flex;
   flex-direction: row;
 }
 
@@ -342,8 +405,12 @@ hr.dotted_login {
   margin: 10px 5px;
 }
 
+.bold {
+  font-size: 20px !important;
+  font-weight: 700;
+}
 
-.lbl_center{
+.lbl_center {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -355,14 +422,235 @@ hr.dotted_login {
   margin: auto 0;
 }
 
-.camp_type_action_btns{
+.camp_type_action_btns {
   display: flex;
   flex-direction: row;
   gap: 10px;
 }
 
-.camp_type_register_main_dev_flex input{
+.camp_type_register_main_dev_flex input {
   width: 100%;
+}
+
+/* ------------------------------   footer-client   ------------------------------ */
+.footer {
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 20px 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+.footer .social-icons {
+  margin: 10px 0;
+}
+
+.footer .social-icons a {
+  color: #fff;
+  margin: 0 10px;
+  text-decoration: none;
+  font-size: 24px;
+}
+
+.footer .social-icons a:hover {
+  color: #f39c12;
+}
+
+.footer p {
+  margin: 5px 0;
+}
+
+.footer_copy_right_div {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+/* ------------------------------   live-stream   ------------------------------ */
+.live_container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f4f4f4;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.live_container h2 {
+  text-align: center;
+  color: #4a4a4a;
+  margin-bottom: 20px;
+}
+
+.livestream-card {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+.livestream-content {
+  display: flex;
+  align-items: center;
+}
+
+.livestream-img {
+  width: 200px;
+  height: auto;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.livestream-text {
+  flex-grow: 1;
+}
+
+.livestream-interactions {
+  margin-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  padding-top: 10px;
+}
+
+.reactions {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.like-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5em;
+}
+
+.comments {
+  display: flex;
+  align-items: center;
+}
+
+.comment-input {
+  flex-grow: 1;
+  padding: 10px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+}
+
+.send-button,
+.show-comments-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-left: 10px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.send-button:hover,
+.show-comments-button:hover {
+  background-color: #0056b3;
+}
+/* index */
+.card_hor_container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 10px;
+}
+
+.card_hor_container .card_hor {
+  flex: 0 0 auto;
+  width: 300px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card_hor_container .card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card_hor_container .card-content {
+  padding: 15px;
+}
+
+.card_hor_container .card-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+.card_hor_container.card-description {
+  font-size: 1rem;
+  color: #555;
+}
+
+.card_hor_container .card-btn {
+  display: inline-block;
+  background-color: #007bff;
+  color: #fff;
+  padding: 8px 12px;
+  text-decoration: none;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.card_hor_container .card-btn:hover {
+  background-color: #0056b3;
+}
+
+/* ------------------------------   tech-detail   ------------------------------ */
+.card-media-detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card-media-detail {
+  width: 80%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s;
+  margin-top: 60px;
+}
+
+.card-media-detail:hover {
+  transform: translateY(-10px);
+}
+
+.card-detail-image {
+  width: 50%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-image-main-dev {
+  display: flex;
+  flex-direction: row;
+}
+
+.back-form-detail {
+  font-size: 30px;
+}
+
+.card-detail-title {
+  margin: 0;
+  font-size: 46px;
+  color: #333;
+}
+
+.card-detail-description {
+  font-size: 24px;
+  color: #777;
+  margin: 10px 0;
 }
 
 /* ------------------------------   campign-register   ------------------------------ */
@@ -381,7 +669,7 @@ hr.dotted_login {
   overflow: hidden;
 }
 
-.camp_lbl_text{
+.camp_lbl_text {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -731,6 +1019,64 @@ header a {
   background-color: #ccc;
 }
 
+/* ------------------------------   Media-client   ------------------------------ */
+.card-media-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.card {
+  width: 300px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s;
+  margin-top: 60px;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+.card-img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.card-content {
+  padding: 20px;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.card-description {
+  font-size: 14px;
+  color: #777;
+  margin: 10px 0;
+}
+
+.card-btn {
+  display: inline-block;
+  text-decoration: none;
+  color: #fff;
+  background-color: #405162;
+  padding: 10px 20px;
+  border-radius: 5px;
+  transition: background-color 0.2s;
+}
+
+.card-btn:hover {
+  background-color: #4c6f92;
+}
+
 /* ------------------------------   Table   ------------------------------ */
 .admin_container_with_navbar .container {
   display: flex;
@@ -820,7 +1166,7 @@ h2 {
 .admin_login_main_dev {
   display: flex;
   justify-content: space-between;
-  height: 400px;
+  height: 500px;
 }
 
 .admin_login_sub_dev img {
@@ -830,6 +1176,11 @@ h2 {
 
 .admin_login_sub_dev_form {
   width: 50%;
+}
+
+.admin_contact_sub_dev_form {
+  width: 50%;
+  margin: 0 10px;
 }
 
 .admin_register_title_main_dev .h3_login {
@@ -873,7 +1224,11 @@ h2 {
 .admin_contact_main_dev {
   display: flex;
   justify-content: space-between;
-  height: 480px;
+  height: 550px;
+}
+
+.admin_contact_container textarea {
+  width: 100%;
 }
 
 /* ------------------------------   hot-toaster   ------------------------------ */
@@ -918,6 +1273,33 @@ h2 {
   font-weight: 600;
   font-size: 18px;
   margin: auto;
+}
+/* policy */
+.policy_container {
+  width: 80%;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+}
+
+.policy_container .content {
+  margin-top: 100px;
+}
+
+.policy_container h1 {
+  text-align: center;
+  color: #4a4a4a;
+}
+
+.policy_container p {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  margin-bottom: 20px;
 }
 
 @media only screen and (max-width: 768px) {
@@ -981,7 +1363,7 @@ h2 {
   }
 
   /* camp-type register */
-  .campign_type_register_main_dev{
+  .campign_type_register_main_dev {
     margin-left: 200px;
   }
 
@@ -1031,9 +1413,36 @@ h2 {
     width: 100%;
   }
 
+  /* policy */
+  .policy_container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .policy_container h1 {
+    font-size: 24px;
+  }
+
+  .policy_container p {
+    font-size: 14px;
+  }
+
   /* toaster */
   .toaster-content {
     max-width: 90%;
+  }
+
+  .guide_container {
+    width: 95%;
+    padding: 10px;
+  }
+
+  .guide_container h1 {
+    font-size: 24px;
+  }
+
+  .content p {
+    font-size: 14px;
   }
 }
 
@@ -1045,25 +1454,25 @@ h2 {
     width: 260px;
     height: 130px;
   }
-  
-  .camp_lbl_text{
+
+  .camp_lbl_text {
     flex-direction: column;
     justify-content: start;
     text-align: start;
   }
 
-  .lbl_center{
+  .lbl_center {
     display: flex;
     justify-content: start;
     align-items: start;
   }
 
   /* tech-register */
-  .media_register_sub_dev .camp_lbl_text select{
+  .media_register_sub_dev .camp_lbl_text select {
     width: 180px !important;
   }
 
-  .media_register_sub_dev .camp_lbl_text{
+  .media_register_sub_dev .camp_lbl_text {
     justify-content: start;
   }
 
@@ -1071,7 +1480,7 @@ h2 {
     margin-left: 80px;
   }
 
-  .tech_image_preview_show{
+  .tech_image_preview_show {
     flex-direction: column;
   }
 
@@ -1079,15 +1488,13 @@ h2 {
   .media_container {
     margin-left: 80px;
   }
-  
 
   /*camp-type register*/
-  .camp_type_action_btns{
+  .camp_type_action_btns {
     flex-direction: column;
   }
 
-  
-  .campign_type_register_main_dev{
+  .campign_type_register_main_dev {
     width: 100%;
     margin-left: 250px;
   }
@@ -1142,5 +1549,82 @@ h2 {
   /* toaster */
   .toaster-content {
     max-width: 100%;
+  }
+
+  .card-detail-image {
+    width: 100%;
+  }
+
+  .card-image-main-dev {
+    flex-direction: column !important;
+  }
+
+  .card-detail-title {
+    font-size: 16px;
+  }
+
+  .card-detail-description {
+    font-size: 14px;
+  }
+
+  /* live */
+  .live_container {
+    width: 90%;
+    padding: 10px;
+  }
+
+  .livestream-card {
+    padding: 15px;
+  }
+
+  .livestream-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .livestream-img {
+    width: 100%;
+    height: auto;
+    margin: 0 0 15px 0;
+  }
+
+  .livestream-text {
+    width: 100%;
+  }
+
+  .reactions {
+    justify-content: space-between;
+  }
+
+  .comments {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .comment-input {
+    margin-bottom: 10px;
+  }
+
+  .send-button,
+  .show-comments-button {
+    width: 100%;
+    padding: 10px;
+    margin: 0 0 10px 0;
+  }
+
+  .show-comments-button {
+    margin-top: 0;
+  }
+
+  .card_hor_container .card_hor {
+    width: 150px;
+  }
+
+  .card_hor_container .card-img {
+    height: 100px;
+  }
+
+  .index_title{
+    font-size: 16px;
   }
 }
