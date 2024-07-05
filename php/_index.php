@@ -1209,7 +1209,6 @@ function clientShowMediaIndex()
             <img src=\"" .  $updatedImagePath . "\" alt=\"Card image\" class=\"card-img\">
             <div class=\"card-content\">
                 <h2 class=\"card-title special_elite_regular\">" . $row['name'] . "</h2>
-                <p class=\"card-description special_elite_regular\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla convallis libero eu elit sagittis feugiat.</p>
             </div>
         </div>
             ";
