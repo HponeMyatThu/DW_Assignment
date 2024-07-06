@@ -14,6 +14,8 @@ $LoginUserEmail = $sessionInfo['email'];
 
 $currentPath = basename($_SERVER['PHP_SELF']);
 
+$is_contact_show = isset($_GET['is_contact_show']) ? ($_GET['is_contact_show'] === 'true') : true;
+
 ?>
 
 <body>
@@ -209,15 +211,34 @@ $currentPath = basename($_SERVER['PHP_SELF']);
         </nav>
         <div class="container">
             <ul class="responsive-table">
-                <h2 class="special_elite_regular">Contact Us<small class="special_elite_regular">&nbsp;[User]</small></h2>
-                <li class="table-header">
-                    <div class="col col-1 special_elite_regular">Id</div>
-                    <div class="col col-3 special_elite_regular">UserName</div>
-                    <div class="col col-2 special_elite_regular">Email</div>
-                    <div class="col col-3 special_elite_regular">Phone</div>
-                    <div class="col col-1 special_elite_regular">Status</div>
+                <h2 class="special_elite_regular">
+                    <a href="Dashboard.php?is_contact_show=true" class="special_elite_regular <?php echo $is_contact_show ? "active" : "" ?>">Contact Us<small class="special_elite_regular">&nbsp;[User]</small></a> /
+                    <a href="Dashboard.php?is_contact_show=false" class="special_elite_regular <?php echo !$is_contact_show ? "active" : "" ?>">Campaign Joined<small class="special_elite_regular">&nbsp;[User]</small></a>
+                </h2>
+                <?php echo
+                $is_contact_show ?
+                    "
+                <li class=\"table-header\">
+                    <div class=\"col col-1 special_elite_regular\">Id</div>
+                    <div class=\"col col-3 special_elite_regular\">UserName</div>
+                    <div class=\"col col-2 special_elite_regular\">Email</div>
+                    <div class=\"col col-3 special_elite_regular\">Phone</div>
+                    <div class=\"col col-1 special_elite_regular\">Status</div>
                 </li>
-                <?php adminContactUs() ?>
+                " : ""; ?>
+                <?php echo $is_contact_show ? adminContactUs() : "" ?>
+
+                <?php echo
+                !$is_contact_show ?
+                    "
+                <li class=\"table-header\">
+                    <div class=\"col col-1 special_elite_regular\">Id</div>
+                    <div class=\"col col-2 special_elite_regular\">User</div>
+                    <div class=\"col col-2 special_elite_regular\">Campaign</div>
+                    <div class=\"col col-2 special_elite_regular\">Joined_Date</div>
+                </li>
+                " : ""; ?>
+                <?php echo !$is_contact_show ? adminJoinedCampaign() : '' ?>
             </ul>
         </div>
     </div>

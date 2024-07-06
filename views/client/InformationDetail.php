@@ -69,8 +69,9 @@ if (!empty($_GET['id'])) {
                         <p class="card-detail-description special_elite_regular"><small class="special_elite_regular">Due-Date :</small> <?php echo empty($start_date) ? 'No start_date available.' : htmlspecialchars($start_date); ?> - <?php echo empty($end_date) ? 'No end_date available.' : htmlspecialchars($end_date); ?></p>
                     </div>
                     <div class="sub_dev">
-                        <form action="">
-                            <button class="card-btn special_elite_regular">Joined</button>
+                        <form action="Information.php" method="POST">
+                            <input type="hidden" name="id" value="<?php echo htmlspecialchars($id);?>">
+                            <button class="card-btn special_elite_regular" name="btn_join_camp" id="btn_join_camp">Joined</button>
                         </form>
                     </div>
                 </div>
@@ -79,8 +80,17 @@ if (!empty($_GET['id'])) {
     </div>
     <?php clientFooter(); ?>
 </body>
+<script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('dropdown_search_modal');
 
-</html>
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchValue = input.value;
+        form.action = `Information.php?search=${encodeURIComponent(searchValue)}`;
+        form.submit();
+    });
+</script>
 
 <?php
 $FooterFilePath = "../layout/footer.php";

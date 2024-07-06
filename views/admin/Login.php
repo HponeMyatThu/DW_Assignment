@@ -40,7 +40,7 @@ adminLogin();
                                         <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input type="email" id="email" name="email" required>
+                                <input type="email" id="email" name="email" class="special_elite_regular" required>
                             </div>
                             <div class="admin_login_form-group">
                                 <div class="form_label_with_icon">
@@ -49,7 +49,7 @@ adminLogin();
                                         <path fill="#000000" fill-rule="evenodd" d="M21.6 12.5a9.6 9.6 0 11-19.199 0 9.6 9.6 0 0119.2 0zm-8.4 4.8a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zM12 6.5a1.2 1.2 0 00-1.2 1.2v4.8a1.2 1.2 0 102.4 0V7.7A1.2 1.2 0 0012 6.5z" clip-rule="evenodd"></path>
                                     </svg>
                                 </div>
-                                <input type="password" id="password" name="password" required>
+                                <input type="password" id="password" name="password" class="special_elite_regular" required>
                             </div>
                             <div class="admin_login_form-group">
                                 <div class="g-recaptcha" data-sitekey="6LfAowQqAAAAABqOVpAXR10qnWsqNC4k1O5zZF7E">

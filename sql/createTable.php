@@ -20,6 +20,7 @@ $isEmpty = empty($create_admin_table)
     || empty($create_media_table)
     || empty($create_campign_type_table)
     || empty($create_technique_table)
+    || empty($create_join_table)
     || empty($create_campign_table);
 
 if ($isEmpty) {
@@ -45,5 +46,6 @@ executeQuery($connection, $create_media_table, "MEDIA");
 executeQuery($connection, $create_campign_type_table, "CAMPIGN_TYPE");
 executeQuery($connection, $create_technique_table, "TECHNIQUE");
 executeQuery($connection, $create_campign_table, "CAMPIGN");
+executeQuery($connection, $create_join_table, "JOIN");
 
 echo "<script>console.log(\"Path: /SQL/createTable</strong>: Successfully create tables.\")</script>";

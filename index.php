@@ -12,24 +12,30 @@ if (
     echo "<p class='error'>Error: Unable to include file <strong>$IndexFilePath, $HeaderFilePath</strong> - File does not exist.</p>";
     return;
 }
+$searchValue = '';
 $currentPath = basename($_SERVER['PHP_SELF']);
 
 ?>
 <link rel="stylesheet" href="./styles/index.css?v=<?php echo time(); ?>">
 
 <body>
+    <div class="cursor-dot" data-cursor-dot></div>
+    <div class="cursor-outline" data-cursor-outline></div>
     <header>
         <div class="navbar">
+            <div id="google_translate_element"></div>
             <div class="logo">
                 <a href="index.php" class="special_elite_regular active">CAMPAIGN</a>
             </div>
             <ul class="links">
-                <li><a href="./views/client/Information.php" class="special_elite_regular">Infromation</a></li>
+                <li><a href="./views/client/Information.php" class="special_elite_regular">Information</a></li>
                 <li><a href="./views/client/Media.php" class="special_elite_regular">Media</a></li>
                 <li class="about_nav"><a class="special_elite_regular">About</a></li>
             </ul>
             <div class="icons">
-                <input type="text" class="special_elite_regular" placeholder="Search" id="search-input">
+                <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="GET">
+                    <input type="text" name="search" class="special_elite_regular" placeholder="Search" id="search-input" value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
+                </form>
                 <div class="toggle_search">
                     <i class="fa fa-search" aria-hidden="true"></i>
                 </div>
@@ -60,7 +66,9 @@ $currentPath = basename($_SERVER['PHP_SELF']);
             </ul>
         </div>
         <div class="dropdown_search">
-            <input placeholder="Search" id="dropdown_search_modal" class="special_elite_regular">
+            <form action="index.php" method="GET" class="search-form" id="searchForm">
+                <input type="text" placeholder="Search" id="dropdown_search_modal" class="special_elite_regular" name="search">
+            </form>
         </div>
     </main>
     <br><br><br>
@@ -80,12 +88,37 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 
     <h1 class="index_title special_elite_regular">&nbsp;Stay safety using socail media</h1>
     <div class="card_hor_container">
-        <?php clientMediaShowIndex() ?>
+        <?php clientSafetyMediaShowIndex() ?>
     </div>
-<br><br>
-    <?php clientFooter()?>
+    <div class="card-media-detail-container">
+        <div class="card-media-detail">
+            <div class="card-content">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15281.235374842701!2d96.16330505!3d16.761303200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c1ec62ec7e69c7%3A0x7ee4bcf6bddbba4b!2z4YCY4YCt4YCv4YCA4YCc4YCx4YC44YCF4YC74YCx4YC4!5e0!3m2!1sen!2smm!4v1720202653848!5m2!1sen!2smm" width="100%" height="1000" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <?php clientFooter() ?>
 </body>
 
+<script type="text/javascript">
+    function googleTranslateElementInit() {
+        new google.translate.TranslateElement({
+            pageLanguage: 'en'
+        }, 'google_translate_element');
+    }
+
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('dropdown_search_modal');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchValue = input.value;
+        form.action = `index.php?search=${encodeURIComponent(searchValue)}`;
+        form.submit();
+    });
+</script>
+<script type="text/javascript" src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 <script src="./js/index.js"></script>
 
 </html>

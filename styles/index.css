@@ -30,17 +30,7 @@ body {
   font-size: 16px;
   color: #333;
   background-color: #fff;
-  cursor: url("../images/admin_pf_icon.png"), auto;
-}
-
-/* Add more styles as needed */
-
-body {
-  line-height: 1.6;
-  font-size: 16px;
-  color: #333;
-  background-color: #fff;
-  cursor: url("../images/admin_pf_icon.png"), auto;
+  
 }
 
 h1,
@@ -145,7 +135,7 @@ button {
   font-size: 1em;
   border: none;
   border-radius: 4px;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
 }
 
 /* Images */
@@ -171,6 +161,28 @@ img {
   justify-content: center;
 }
 
+.cursor-dot {
+  width: 5px;
+  height: 5px;
+  background-color: black;
+}
+
+.cursor-outline {
+  width: 30px;
+  height: 30px;
+  border: 2px solid hsla(0, 0%, 0%, 0.5);
+}
+
+.cursor-dot,
+.cursor-outline {
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  z-index: 10;
+}
+
 .btn_update {
   background-color: coral;
   color: white;
@@ -193,7 +205,7 @@ img {
   gap: 50px;
 }
 
-.index_title{
+.index_title {
   display: flex;
   margin: 0 auto;
 }
@@ -351,7 +363,7 @@ hr.dotted_login {
   background-color: #000;
   color: white;
   border: none;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   border-radius: 0px;
 }
 
@@ -522,7 +534,7 @@ hr.dotted_login {
 .like-button {
   background-color: transparent;
   border: none;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   font-size: 1.5em;
 }
 
@@ -545,7 +557,7 @@ hr.dotted_login {
   border: none;
   padding: 10px 20px;
   margin-left: 10px;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   border-radius: 4px;
 }
 
@@ -588,6 +600,10 @@ hr.dotted_login {
 .card_hor_container.card-description {
   font-size: 1rem;
   color: #555;
+}
+
+.card-content a {
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
 }
 
 .card_hor_container .card-btn {
@@ -712,7 +728,7 @@ hr.dotted_login {
   justify-content: end;
   align-items: end;
   margin: 0 auto;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
 }
 
 .media_register_sub_dev_img .image-preview {
@@ -784,7 +800,7 @@ header {
 
 header i,
 header a {
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   color: #000000;
 }
 
@@ -807,8 +823,8 @@ header a {
 .dropdown_search {
   z-index: 100;
   position: absolute;
-  right: 6rem;
-  top: 18px;
+  right: 1rem;
+  top: 65px;
   display: none;
   transition: height 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
@@ -851,7 +867,7 @@ header a {
 .navbar .toggle_btn {
   color: #000;
   font-size: 1.5rem;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   display: none;
 }
 
@@ -859,7 +875,7 @@ header a {
   display: none;
   color: #000;
   font-size: 1.5rem;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
 }
 
 .dropdown_about_menu {
@@ -948,7 +964,7 @@ header a {
   text-align: center;
   background-color: transparent;
   border: none;
-  cursor: pointer;
+  cursor: url('../images/icons8-cursor-30.png'), pointer;
   position: relative;
   padding: 10px;
 }
@@ -1105,7 +1121,7 @@ h2 {
     margin-bottom: 25px;
   }
   li a {
-    cursor: pointer;
+    cursor: url('../images/icons8-cursor-30.png'), pointer;
   }
   .table-header {
     background-color: #95a5a6;
@@ -1624,7 +1640,15 @@ h2 {
     height: 100px;
   }
 
-  .index_title{
+  .index_title {
     font-size: 16px;
+  }
+
+  .admin_contact_container {
+    width: 90%;
+  }
+
+  .admin_contact_sub_dev_form {
+    width: 100%;
   }
 }

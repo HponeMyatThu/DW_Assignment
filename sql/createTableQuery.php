@@ -91,3 +91,16 @@ CREATE TABLE IF NOT EXISTS campign (
     FOREIGN KEY (camp_type_id) REFERENCES campign_type(id),
     FOREIGN KEY (tech_id) REFERENCES technique(id)
 )";
+
+$create_join_table = "
+    CREATE TABLE IF NOT EXISTS `join` (
+        id INT NOT NULL AUTO_INCREMENT,
+        user_id INT NOT NULL,
+        campign_id INT NOT NULL,
+        status ENUM('REQUESTED', 'ACCEPTED', 'REJECTED') DEFAULT 'REQUESTED',
+        register_date DATE NOT NULL DEFAULT CURRENT_DATE,
+        PRIMARY KEY(id),
+        FOREIGN KEY (user_id) REFERENCES user(id),
+        FOREIGN KEY (campign_id) REFERENCES campign(id)
+    );";
+?>

@@ -270,6 +270,89 @@ function adminContactUs()
     $stmtUser->close();
 }
 
+function adminJoinedCampaign()
+{
+    $connection = DBConnection("admin");
+    if ($connection === null) {
+        toaster("Error: Database connection could not be established", "error");
+        return;
+    }
+
+    $query = "SELECT * FROM `join`";
+    $queryUser = "SELECT * FROM user";
+    $queryCamp = "SELECT * FROM campign";
+
+    $stmt = $connection->prepare($query);
+    $stmtUser = $connection->prepare($queryUser);
+    $stmtCamp = $connection->prepare($queryCamp);
+
+    if ($stmt === false || $stmtUser === false || $stmtCamp === false) {
+        toaster("Error preparing statement: " . $connection->error, "error");
+        return;
+    }
+
+    $result = $stmt->execute();
+
+    if ($result === false) {
+        toaster("Error executing statement: " . $stmt->error, "error");
+        return;
+    }
+
+    $result = $stmt->get_result();
+    $resultUser = $stmtUser->execute();
+
+    if ($resultUser === false) {
+        toaster("Error executing statement: " . $stmtUser->error, "error");
+        return;
+    }
+
+    $resultUser = $stmtUser->get_result();
+    $resultCamp = $stmtCamp->execute();
+    $resultCamp = $stmtCamp->get_result();
+
+    if ($result->num_rows > 0 && $resultUser->num_rows > 0 && $resultCamp->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            $userFound = false;
+            $campFound = false;
+            while ($rowUser = $resultUser->fetch_assoc()) {
+                if ($row['user_id'] === $rowUser['id']) {
+                    while ($rowCamp = $resultCamp->fetch_assoc()) {
+                        if ($row['campign_id'] === $rowCamp['id']) {
+                            echo "
+                                <li class=\"table-row\">
+                                    <div class=\"col col-1 special_elite_regular\">" . $row['id'] . "</div>
+                                    <div class=\"col col-2 special_elite_regular\">" . $rowUser['firstname'] . $rowUser['surname'] . "</div>
+                                    <div class=\"col col-2 special_elite_regular\">" . $rowCamp['name'] . "</div>
+                                    <div class=\"col col-2 special_elite_regular\">" . $row['register_date'] . "</div>
+                                </li>
+                            ";
+                            $userFound = true;
+                            $campFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!$userFound) {
+                echo "
+                    <li class=\"table-row\">
+                        <div class=\"col col-12 special_elite_regular\" data-label=\"NOTE:\">" . "contact id: " .  $row['id'] . "<br/>Already contact to user: " . "(" . $rowUser['firstname'] . $rowUser['surname'] . ")" . "</div>
+                    </li>
+                ";
+            }
+            $resultUser->data_seek(0);
+        }
+    } else {
+        echo "
+            <li class=\"table-row\">
+                <div class=\"col col-12 special_elite_regular\" data-label=\"Id\">No user submitted contact us form.</div>
+            </li>
+        ";
+    }
+    $stmt->close();
+    $stmtUser->close();
+}
+
 
 function adminRegister()
 {
@@ -583,6 +666,7 @@ function clientNavbar()
     echo "
     <header>
         <div class=\"navbar\">
+        <div id=\"google_translate_element\"></div>
             <div class=\"logo\">
                 <a href=\"../../index.php\" class=\"special_elite_regular\">CAMPAIGN</a>
             </div>
@@ -595,6 +679,9 @@ function clientNavbar()
                 <form action=\"\" method=\"GET\" class=\"search-form\">
                     <input type=\"text\" name=\"search\" class=\"special_elite_regular\" placeholder=\"Search\" id=\"search-input\">
                 </form>
+                <div class=\"toggle_search\">
+                    <i class=\"fa fa-search\" aria-hidden=\"true\"></i>
+                </div>
                 <div class=\"toggle_btn\">
                     <i class=\"fa fa-bars\" aria-hidden=\"true\"></i>
                 </div>
@@ -622,7 +709,9 @@ function clientNavbar()
             </ul>
         </div>
         <div class=\"dropdown_search\">
-            <input placeholder=\"Search\" id=\"dropdown_search_modal\" class=\"special_elite_regular\">
+        <form action=\"\" method=\"GET\" class=\"search-form\" id=\"searchForm\">
+                <input type=\"text\" placeholder=\"Search\" id=\"dropdown_search_modal\" class=\"special_elite_regular\" name=\"search\">
+            </form>
         </div>
     </main>
     ";
@@ -1151,7 +1240,7 @@ function showMedia()
     }
 }
 
-function clientMediaShowIndex()
+function clientSafetyMediaShowIndex()
 {
     $connection = DBConnection("index");
     if ($connection === null) {
@@ -1178,7 +1267,7 @@ function clientMediaShowIndex()
             <img src=\"" .  $updatedImagePath . "\" alt=\"Card image\" class=\"card-img\">
             <div class=\"card-content\">
                 <h2 class=\"card-title special_elite_regular\">" . $row['name'] . "</h2>
-                <p class=\"card-description special_elite_regular\">". (strlen($row['description']) > 100 ? substr(htmlspecialchars($row['description']), 0, 100) . '...' : htmlspecialchars($row['description'])) ."</p>
+                <p class=\"card-description special_elite_regular\">" . (strlen($row['description']) > 100 ? substr(htmlspecialchars($row['description']), 0, 100) . '...' : htmlspecialchars($row['description'])) . "</p>
                 <a href=\"MediaDetail.php?id=" . htmlspecialchars($row['id']) . "\" class=\"card-btn special_elite_regular\">Read More</a>
             </div>
         </div>
@@ -1197,7 +1286,13 @@ function clientShowMediaIndex()
         return;
     }
 
-    $query = "SELECT * FROM media;";
+    $searchQuery = isset($_GET['search']) ? $connection->real_escape_string($_GET['search']) : '';
+
+    if (!empty($searchQuery)) {
+        $query = "SELECT * FROM media WHERE name LIKE '%$searchQuery%';";
+    } else {
+        $query = "SELECT * FROM media;";
+    }
     $result = $connection->query($query);
     if ($result->num_rows > 0) {
         while ($row = $result->fetch_assoc()) {
@@ -1629,6 +1724,38 @@ if (isset($_POST['tech_delete_bth'])) {
     }
 }
 
+if (isset($_POST['btn_join_camp'])) {
+    $camp_id = $_POST['id'];
+    $connection = DBConnection("client");
+
+    if ($connection === null) {
+        echo "<p class='error'>Error: Database connection could not be established.</p>";
+        return;
+    }
+
+    $token = verifyClientSession();
+    $token = json_decode($token, true);
+
+    if (is_array($token) && isset($token['id'])) {
+        $user_id = (int)$token['id'];
+
+        $sql = "INSERT INTO `join` (user_id, campign_id) VALUES (?, ?)";
+        $stmt = $connection->prepare($sql);
+        $stmt->bind_param("ii", $user_id, $camp_id);
+
+        if ($stmt->execute()) {
+            toaster("Successfully joined the campaign.", "success");
+        } else {
+            toaster("Error: Could not join the campaign.", "error");
+        }
+
+        $stmt->close();
+    } else {
+        echo "<p class='error'>Error: Invalid session token.</p>";
+    }
+
+    $connection->close();
+}
 
 if (isset($_POST['camp_type_delete_bth'])) {
     $id = $_POST['id'];
