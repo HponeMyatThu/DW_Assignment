@@ -30,7 +30,6 @@ body {
   font-size: 16px;
   color: #333;
   background-color: #fff;
-  
 }
 
 h1,
@@ -135,7 +134,7 @@ button {
   font-size: 1em;
   border: none;
   border-radius: 4px;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
 }
 
 /* Images */
@@ -210,6 +209,142 @@ img {
   margin: 0 auto;
 }
 
+/* ------------------------------   slide show   ------------------------------ */
+.content-width {
+  width: 86%;
+  height: 80vh;
+  margin: 0 auto;
+}
+
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+.slideshow-items {
+  position: relative;
+  width: 100%;
+  height: 300px;
+}
+
+.item {
+  position: absolute;
+  width: 100%;
+  height: auto;
+}
+
+.item-image-container {
+  position: relative;
+  width: 42%;
+}
+
+.item-image-container::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 101%;
+  height: 101%;
+  background: #22222a;
+  opacity: 0;
+  z-index: 1;
+}
+
+.item-image {
+  position: relative;
+  width: 100%;
+  height: 500px;
+  opacity: 0;
+  display: block;
+  transition: opacity 0.3s ease-out 0.45s;
+}
+
+.item.active .item-image {
+  opacity: 1;
+}
+
+.item.active .item-image-container::before {
+  opacity: 0.8;
+}
+
+.item-description {
+  position: absolute;
+  top: 182px;
+  right: 0;
+  width: 50%;
+  padding-right: 4%;
+  line-height: 1.8;
+}
+
+/* Staggered Vertical Items ------------------------------------------------------*/
+.item-header {
+  position: absolute;
+  top: 150px;
+  left: -1.8%;
+  z-index: 100;
+}
+
+.item-header .vertical-part {
+  margin: 0 -4px;
+  font-family: "Montserrat", sans-serif;
+  -webkit-font-smoothing: auto;
+  font-size: 7vw;
+  color: #fff;
+}
+
+.vertical-part {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.vertical-part b {
+  display: inline-block;
+  transform: translateY(100%);
+}
+
+.item-header .vertical-part b {
+  transition: 0.5s;
+}
+
+.item-description .vertical-part b {
+  transition: 0.21s;
+}
+
+.item.active .item-header .vertical-part b {
+  transform: translateY(0);
+}
+
+.item.active .item-description .vertical-part b {
+  transform: translateY(0);
+}
+
+/* Controls ----------------------------------------------------------------------*/
+.controls {
+  position: relative;
+  text-align: right;
+  z-index: 1000;
+}
+
+.controls ul {
+  list-style: none;
+}
+
+.controls ul li {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  margin: 3px;
+  background: #bdbdd5;
+  cursor: pointer;
+}
+
+.controls ul li.active {
+  background: #6a6a77;
+}
 /* ------------------------------   font   ------------------------------ */
 .special_elite_regular {
   font-family: "Special Elite", system-ui;
@@ -363,7 +498,7 @@ hr.dotted_login {
   background-color: #000;
   color: white;
   border: none;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   border-radius: 0px;
 }
 
@@ -534,7 +669,7 @@ hr.dotted_login {
 .like-button {
   background-color: transparent;
   border: none;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   font-size: 1.5em;
 }
 
@@ -557,7 +692,7 @@ hr.dotted_login {
   border: none;
   padding: 10px 20px;
   margin-left: 10px;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   border-radius: 4px;
 }
 
@@ -603,7 +738,7 @@ hr.dotted_login {
 }
 
 .card-content a {
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
 }
 
 .card_hor_container .card-btn {
@@ -728,7 +863,7 @@ hr.dotted_login {
   justify-content: end;
   align-items: end;
   margin: 0 auto;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
 }
 
 .media_register_sub_dev_img .image-preview {
@@ -800,7 +935,7 @@ header {
 
 header i,
 header a {
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   color: #000000;
 }
 
@@ -867,7 +1002,7 @@ header a {
 .navbar .toggle_btn {
   color: #000;
   font-size: 1.5rem;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   display: none;
 }
 
@@ -875,7 +1010,7 @@ header a {
   display: none;
   color: #000;
   font-size: 1.5rem;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
 }
 
 .dropdown_about_menu {
@@ -964,7 +1099,7 @@ header a {
   text-align: center;
   background-color: transparent;
   border: none;
-  cursor: url('../images/icons8-cursor-30.png'), pointer;
+  cursor: url("../images/icons8-cursor-30.png"), pointer;
   position: relative;
   padding: 10px;
 }
@@ -1121,7 +1256,7 @@ h2 {
     margin-bottom: 25px;
   }
   li a {
-    cursor: url('../images/icons8-cursor-30.png'), pointer;
+    cursor: url("../images/icons8-cursor-30.png"), pointer;
   }
   .table-header {
     background-color: #95a5a6;
@@ -1460,6 +1595,18 @@ h2 {
   .content p {
     font-size: 14px;
   }
+
+  .item-description {
+    display: none;
+  }
+
+  .item-image-container {
+    width: 100%;
+  }
+
+  .content-width{
+    height: 60vh;
+  }
 }
 
 @media only screen and (max-width: 576px) {
@@ -1650,5 +1797,8 @@ h2 {
 
   .admin_contact_sub_dev_form {
     width: 100%;
+  }
+  .content-width{
+    height: 80vh;
   }
 }

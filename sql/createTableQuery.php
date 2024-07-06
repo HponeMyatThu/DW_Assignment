@@ -1,68 +1,62 @@
 <?php
 $comma = ",";
 
-$create_admin_table = "
-CREATE TABLE IF NOT EXISTS admin
-    (
-    id int not null auto_increment
-    firstname varchar(50) not null
-    surname varchar(50) not null
-    email varchar(100) not null unique
-    password varchar(255) not null
-    pin varchar(10) not null
-    phone varchar(30) not null unique
-    address varchar(255) not null
-    login_on_other_device enum('true', 'false') default 'false'
-    status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'
-    primary key(id)
-    )";
+$create_admin_table = "CREATE TABLE IF NOT EXISTS admin" .
+    "(" .
+    "id int not null auto_increment" . $comma .
+    "firstname varchar(50) not null" . $comma .
+    "surname varchar(50) not null" . $comma .
+    "email varchar(100) not null unique" . $comma .
+    "password varchar(255) not null" . $comma .
+    "pin varchar(10) not null" . $comma .
+    "phone varchar(30) not null unique" . $comma .
+    "address varchar(255) not null" . $comma .
+    "login_on_other_device enum('true', 'false') default 'false'" . $comma .
+    "status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'" . $comma .
+    "primary key(id)" .
+    ")";
 
-$create_user_table = "
-CREATE TABLE IF NOT EXISTS user
-    (
-    id int not null auto_increment
-    firstname varchar(50) not null
-    surname varchar(50) not null
-    email varchar(100) not null unique
-    password varchar(255) not null
-    pin varchar(10) not null
-    phone varchar(30) not null unique
-    address varchar(255) not null
-    login_on_other_device enum('true', 'false') default 'false'
-    status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'
-    primary key(id)
-    )";
+$create_user_table = "CREATE TABLE IF NOT EXISTS user" .
+    "(" .
+    "id int not null auto_increment" . $comma .
+    "firstname varchar(50) not null" . $comma .
+    "surname varchar(50) not null" . $comma .
+    "email varchar(100) not null unique" . $comma .
+    "password varchar(255) not null" . $comma .
+    "pin varchar(10) not null" . $comma .
+    "phone varchar(30) not null unique" . $comma .
+    "address varchar(255) not null" . $comma .
+    "login_on_other_device enum('true', 'false') default 'false'" . $comma .
+    "status enum('ACTIVE', 'INACTIVE', 'PENDING') default 'PENDING'" . $comma .
+    "primary key(id)" .
+    ")";
 
-$create_contact_us_table = "
-CREATE TABLE IF NOT EXISTS contact_us (
-    id INT NOT NULL AUTO_INCREMENT, 
-    email VARCHAR(100) NOT NULL, 
-    phone VARCHAR(30) NOT NULL, 
-    address VARCHAR(255) NOT NULL, 
-    status enum('DONE', 'PENDING') default 'PENDING',
-    user_id INT NOT NULL, 
-    PRIMARY KEY(id), 
-    FOREIGN KEY(user_id) REFERENCES user(id)
-    )";
+$create_contact_us_table = "CREATE TABLE IF NOT EXISTS contact_us (" .
+    "id INT NOT NULL AUTO_INCREMENT, " .
+    "email VARCHAR(100) NOT NULL, " .
+    "phone VARCHAR(30) NOT NULL, " .
+    "address VARCHAR(255) NOT NULL, " .
+    "status enum('DONE', 'PENDING') default 'PENDING'," .
+    "user_id INT NOT NULL, " .
+    "PRIMARY KEY(id), " .
+    "FOREIGN KEY(user_id) REFERENCES user(id)" .
+    ")";
 
-$create_media_table = "
-CREATE TABLE IF NOT EXISTS media (
-    id INT NOT NULL AUTO_INCREMENT, 
-    name VARCHAR(50) NOT NULL,
-    image VARCHAR(255) NOT NULL,
-    media_link VARCHAR(255) NOT NULL,
-    PRIMARY KEY(id)
-    )";
+$create_media_table = "CREATE TABLE IF NOT EXISTS media (" .
+    "id INT NOT NULL AUTO_INCREMENT, " .
+    "name VARCHAR(50) NOT NULL," .
+    "image VARCHAR(255) NOT NULL," .
+    "media_link VARCHAR(255) NOT NULL," .
+    "PRIMARY KEY(id)" .
+    ")";
 
-$create_campign_type_table = "
-CREATE TABLE IF NOT EXISTS campign_type (
-    id INT NOT NULL AUTO_INCREMENT, 
-    name VARCHAR(50) NOT NULL, 
-    PRIMARY KEY(id)
-    )";
+$create_campign_type_table = "CREATE TABLE IF NOT EXISTS campign_type (" .
+    "id INT NOT NULL AUTO_INCREMENT, " .
+    "name VARCHAR(50) NOT NULL, " .
+    "PRIMARY KEY(id)" .
+    ")";
 
-$create_technique_table = "
-CREATE TABLE IF NOT EXISTS technique (
+$create_technique_table = "CREATE TABLE IF NOT EXISTS technique (
         id INT NOT NULL AUTO_INCREMENT, 
         name VARCHAR(100) NOT NULL, 
         description TEXT NOT NULL, 
@@ -109,3 +103,4 @@ $create_join_table = "
         FOREIGN KEY (user_id) REFERENCES user(id),
         FOREIGN KEY (campign_id) REFERENCES campign(id)
     );";
+?>

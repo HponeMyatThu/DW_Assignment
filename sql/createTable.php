@@ -36,6 +36,7 @@ function executeQuery($connection, $query, $tableName)
         echo "<p class='error'><strong>CREATE $tableName TABLE FAILED!!</strong> Error: " . $connection->error . "</p>";
         return false;
     }
+    echo "<p>/SQL/createTable</strong>: Successfully create [" . $tableName . "] tables.</p>";
     return true;
 }
 
