@@ -137,19 +137,20 @@ $campaigns = [
             </div>
         </div>
     </div>
-    <div class="card-media-detail-container">
-        <div class="card-media-detail">
+    <div class="card-media-iframe-detail-container">
+        <div class="card-media-iframe-detail">
             <div class="card-content">
                 <iframe width="100%" height="600" src="https://www.youtube.com/embed/W5bh1JFo43U?si=cPjcuYI0-DryOEDY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
         </div>
     </div>
+    <br>
     <h1 class="index_title special_elite_regular">&nbsp;Stay safety using socail media</h1>
     <div class="card_hor_container">
         <?php clientSafetyMediaShowIndex() ?>
     </div>
-    <div class="card-media-detail-container">
-        <div class="card-media-detail">
+    <div class="card-media-iframe-detail-container">
+        <div class="card-media-iframe-detail">
             <div class="card-content">
                 <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15281.235374842701!2d96.16330505!3d16.761303200000004!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c1ec62ec7e69c7%3A0x7ee4bcf6bddbba4b!2z4YCY4YCt4YCv4YCA4YCc4YCx4YC44YCF4YC74YCx4YC4!5e0!3m2!1sen!2smm!4v1720202653848!5m2!1sen!2smm" width="100%" height="1000" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>

@@ -764,7 +764,23 @@ hr.dotted_login {
   padding: 20px;
 }
 
+.card-media-iframe-detail-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
 .card-media-detail {
+  width: 80%;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.2s;
+  margin-top: 60px;
+}
+
+.card-media-iframe-detail {
   width: 80%;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -1800,5 +1816,9 @@ h2 {
   }
   .content-width{
     height: 80vh;
+  }
+
+  .card-media-iframe-detail {
+    width: 100%;
   }
 }
