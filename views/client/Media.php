@@ -14,8 +14,24 @@ $currentPath = basename($_SERVER['PHP_SELF']);
 ?>
 
 <body>
-    <?php clientNavbar()?>
+    <?php clientNavbar() ?>
+    <div class="card-media-container">
+        <?php clientTechShow()?>
+    </div>
+    <?php clientFooter() ?>
 </body>
+
+<script>
+    const form = document.getElementById('searchForm');
+    const input = document.getElementById('dropdown_search_modal');
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        const searchValue = input.value;
+        form.action = `Media.php?search=${encodeURIComponent(searchValue)}`;
+        form.submit();
+    });
+</script>
 
 <?php
 $FooterFilePath = "../layout/footer.php";

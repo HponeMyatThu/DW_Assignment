@@ -14,7 +14,7 @@ clientLogin();
 
 <body class="admin_register_body">
     <div class="admin_login_container">
-        <form action="Login.php" method="post">
+        <form action="Login.php" method="post" onsubmit="return validateForm()">
             <div class="admin_login_main_dev">
                 <div class="admin_login_sub_dev">
                     <img src="../../images/register_cover.png" alt="">
@@ -49,6 +49,11 @@ clientLogin();
                                 </div>
                                 <input type="password" id="password" name="password" required>
                             </div>
+                            <div class="admin_login_form-group">
+                                <div class="g-recaptcha" data-sitekey="6LfAowQqAAAAABqOVpAXR10qnWsqNC4k1O5zZF7E">
+                                </div>
+                            </div>
+                            <br>
                             <div class="admin_register_form-group">
                                 <button type="submit" class="special_elite_regular">Login</button>
                             </div>
@@ -63,6 +68,19 @@ clientLogin();
         </form>
     </div>
 </body>
+
+<script>
+    function validateForm() {
+        var response = grecaptcha.getResponse();
+        if (response.length === 0) {
+            alert('Please complete the reCAPTCHA validation.');
+            return false
+        }
+        return true;
+    }
+</script>
+
+<script src="https://www.google.com/recaptcha/api.js"></script>
 
 <?php
 $FooterFilePath = "../layout/footer.php";
