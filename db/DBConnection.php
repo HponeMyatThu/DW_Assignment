@@ -20,7 +20,7 @@ if ($env_file_path !== false && file_exists($env_file_path)) {
         }
     }
 
-    $isEmpty = empty($servername) || empty($username) || empty($password) || empty($database);
+    $isEmpty = empty($servername) || empty($username) || empty($database);
 
     if ($isEmpty) {
         echo "<script>console.log('Path: /DB/DBConnection: fetch value from .env file failed.');</script>";

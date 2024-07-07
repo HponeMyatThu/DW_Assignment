@@ -353,7 +353,6 @@ function adminJoinedCampaign()
     $stmtUser->close();
 }
 
-
 function adminRegister()
 {
     $connection = DBConnection("admin");
@@ -374,6 +373,67 @@ function adminRegister()
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $status = 'PENDING';
 
+        // Check if the first name already exists in the database
+        $checkFirstnameQuery = "SELECT * FROM admin WHERE firstname = ?";
+        $checkFirstnameStmt = $connection->prepare($checkFirstnameQuery);
+        if ($checkFirstnameStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkFirstnameStmt->bind_param('s', $firstname);
+        $checkFirstnameStmt->execute();
+        $checkFirstnameStmt->store_result();
+
+        if ($checkFirstnameStmt->num_rows > 0) {
+            toaster("Error: Admin with the same first name already exists", "error");
+            $checkFirstnameStmt->close();
+            return;
+        }
+
+        $checkFirstnameStmt->close();
+
+        // Check if the surname already exists in the database
+        $checkSurnameQuery = "SELECT * FROM admin WHERE surname = ?";
+        $checkSurnameStmt = $connection->prepare($checkSurnameQuery);
+        if ($checkSurnameStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkSurnameStmt->bind_param('s', $surname);
+        $checkSurnameStmt->execute();
+        $checkSurnameStmt->store_result();
+
+        if ($checkSurnameStmt->num_rows > 0) {
+            toaster("Error: Admin with the same surname already exists", "error");
+            $checkSurnameStmt->close();
+            return;
+        }
+
+        $checkSurnameStmt->close();
+
+        // Check if the email already exists in the database
+        $checkEmailQuery = "SELECT * FROM admin WHERE email = ?";
+        $checkEmailStmt = $connection->prepare($checkEmailQuery);
+        if ($checkEmailStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkEmailStmt->bind_param('s', $email);
+        $checkEmailStmt->execute();
+        $checkEmailStmt->store_result();
+
+        if ($checkEmailStmt->num_rows > 0) {
+            toaster("Error: Admin with the same email already exists", "error");
+            $checkEmailStmt->close();
+            return;
+        }
+
+        $checkEmailStmt->close();
+
+        // Insert the new admin record
         $query = "INSERT INTO admin (firstname, surname, email, password, pin, phone, address, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($query);
         if ($stmt === false) {
@@ -382,9 +442,9 @@ function adminRegister()
             $stmt->bind_param('ssssssss', $firstname, $surname, $email, $hashedPassword, $pin, $phone, $address, $status);
             $result = $stmt->execute();
             if ($result === false) {
-                toaster("Error executing statement: $stmt->error ", "error");
+                toaster("Error executing statement: $stmt->error", "error");
             } else {
-                toaster("Admin Register successfully", "success");
+                toaster("Admin registered successfully", "success");
             }
             $stmt->close();
         }
@@ -503,6 +563,67 @@ function clientRegister()
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $status = 'PENDING';
 
+        // Check if the first name already exists in the database
+        $checkFirstnameQuery = "SELECT * FROM user WHERE firstname = ?";
+        $checkFirstnameStmt = $connection->prepare($checkFirstnameQuery);
+        if ($checkFirstnameStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkFirstnameStmt->bind_param('s', $firstname);
+        $checkFirstnameStmt->execute();
+        $checkFirstnameStmt->store_result();
+
+        if ($checkFirstnameStmt->num_rows > 0) {
+            toaster("Error: User with the same first name already exists", "error");
+            $checkFirstnameStmt->close();
+            return;
+        }
+
+        $checkFirstnameStmt->close();
+
+        // Check if the surname already exists in the database
+        $checkSurnameQuery = "SELECT * FROM user WHERE surname = ?";
+        $checkSurnameStmt = $connection->prepare($checkSurnameQuery);
+        if ($checkSurnameStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkSurnameStmt->bind_param('s', $surname);
+        $checkSurnameStmt->execute();
+        $checkSurnameStmt->store_result();
+
+        if ($checkSurnameStmt->num_rows > 0) {
+            toaster("Error: User with the same surname already exists", "error");
+            $checkSurnameStmt->close();
+            return;
+        }
+
+        $checkSurnameStmt->close();
+
+        // Check if the email already exists in the database
+        $checkEmailQuery = "SELECT * FROM user WHERE email = ?";
+        $checkEmailStmt = $connection->prepare($checkEmailQuery);
+        if ($checkEmailStmt === false) {
+            toaster("Error preparing statement: $connection->error", "error");
+            return;
+        }
+
+        $checkEmailStmt->bind_param('s', $email);
+        $checkEmailStmt->execute();
+        $checkEmailStmt->store_result();
+
+        if ($checkEmailStmt->num_rows > 0) {
+            toaster("Error: User with the same email already exists", "error");
+            $checkEmailStmt->close();
+            return;
+        }
+
+        $checkEmailStmt->close();
+
+        // Insert the new user record
         $query = "INSERT INTO user (firstname, surname, email, password, pin, phone, address, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $connection->prepare($query);
         if ($stmt === false) {
@@ -511,14 +632,15 @@ function clientRegister()
             $stmt->bind_param('ssssssss', $firstname, $surname, $email, $hashedPassword, $pin, $phone, $address, $status);
             $result = $stmt->execute();
             if ($result === false) {
-                toaster("Error executing statement: $stmt->error ", "error");
+                toaster("Error executing statement: $stmt->error", "error");
             } else {
-                toaster("User Register successfully", "success");
+                toaster("User registered successfully", "success");
             }
             $stmt->close();
         }
     }
 }
+
 
 function clientLogin()
 {
