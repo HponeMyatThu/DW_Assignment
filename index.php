@@ -130,7 +130,7 @@ $campaigns = [
     </div>
 
     <div class="card-media-detail-container">
-        <div class="card-media-detail">
+        <div class="card-media-iframe-detail">
             <div class="card-content">
                 <h2 class="card-detail-title special_elite_regular">Using social media adivce</h2>
                 <p class="card-detail-description special_elite_regular">In today's digital age, social media has become an integral part of our daily lives, connecting people across the globe. However, with its widespread use, the importance of online safety cannot be overstated, especially for teenagers who are among the most active users. Our campaign aims to educate and protect this vulnerable group by providing essential safety techniques for popular platforms such as Facebook, Instagram, Twitter, LinkedIn, Snapchat, TikTok, Pinterest, WhatsApp, Reddit, and Tumblr. The campaign's home page is designed to be engaging and informative, featuring a search bar for easy navigation, interactive web services, and visually appealing elements. We emphasize minimal text to maintain user interest while maximizing the impact of visuals. An interactive navigation bar with drop-down menus, tips for staying safe online, custom cursors, and 3D illustrations enhance the user experience. Additionally, the footer includes a "You are here" page indicator, copyright information, and social media buttons, ensuring users can easily access relevant information and stay connected. Our goal is to create a safe online environment where teenagers can enjoy social media while being aware of potential risks and how to mitigate them.</p>

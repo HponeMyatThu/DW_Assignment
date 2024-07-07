@@ -50,3 +50,5 @@ executeQuery($connection, $create_campign_table, "CAMPIGN");
 executeQuery($connection, $create_join_table, "JOIN");
 
 echo "<script>console.log(\"Path: /SQL/createTable</strong>: Successfully create tables.\")</script>";
+
+
